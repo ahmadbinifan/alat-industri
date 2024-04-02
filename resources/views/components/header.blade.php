@@ -136,7 +136,19 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="javascript:;" class="nav-link">
+                                {{-- <form action="{{ route('logout') }}" method="post">
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger btn-xs">
+                                        <i data-feather="log-out"></i>
+                                        <span>Log Out</span>
+                                    </button>
+                                </form> --}}
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+                                <a href="#" class="nav-link"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <i data-feather="log-out"></i>
                                     <span>Log Out</span>
                                 </a>

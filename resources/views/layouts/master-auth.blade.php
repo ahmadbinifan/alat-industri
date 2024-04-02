@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
@@ -15,17 +14,15 @@
 
     <!-- plugin css -->
     <link href="{{ asset('assets/fonts/feather-font/css/iconfont.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/plugins/@mdi/css/materialdesignicons.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/plugins/flag-icon-css/css/flag-icon.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/plugins/perfect-scrollbar/perfect-scrollbar.css') }}" rel="stylesheet" />
     <!-- end plugin css -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossorigin="anonymous"></script>
+
     @stack('plugin-styles')
 
     <!-- common css -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     <!-- end common css -->
+
     @stack('style')
 </head>
 
@@ -34,21 +31,14 @@
     <script src="{{ asset('assets/js/spinner.js') }}"></script>
 
     <div class="main-wrapper" id="app">
-        <x-sidebar></x-sidebar>
-        <div class="page-wrapper">
-            <x-header></x-header>
-            <div class="page-content">
-                {{ $slot }}
-            </div>
-            <x-footer></x-footer>
+        <div class="page-wrapper full-page justify-content-center">
+            {{ $slot }}
         </div>
     </div>
 
     <!-- base js -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('assets/plugins/feather-icons/feather.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/simplemde/simplemde.min.js') }}"></script>
-    <script src="{{ asset('assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <!-- end base js -->
 
     <!-- plugin js -->
