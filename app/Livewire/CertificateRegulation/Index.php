@@ -9,7 +9,10 @@ use illuminate\Support\Facades\Storage;
 
 class Index extends Component
 {
-
+    public $perPage = 10;
+    public $search = '';
+    public $sortDirection = 'ASC';
+    public $sortColumn = 'regulation_no';
     use WithPagination;
     #[\Livewire\Attributes\On('refresh-list')]
     public function refresh()
@@ -18,19 +21,32 @@ class Index extends Component
     public function downloadFile($regulationId)
     {
         $regulation = regulasi::findOrFail($regulationId);
-
-        // Lakukan logika untuk mengunduh file disini, misalnya:
         $filePath = storage_path('app/' . $regulation->document_k3); // Sesuaikan dengan path file Anda
         return response()->download($filePath);
+    }
 
-        // dd($regulasi);
-        // if (Storage::disk('certificate-regulation')->exists($regulasi->document_k3)) {
-        //     return Storage::download($regulasi->document_k3, $regulasi->regulation_desc);
-        // }
+    public function doSort($column)
+    {
+        if ($this->sortColumn === $column) {
+            $this->sortDirection = ($this->sortDirection == 'ASC') ? 'DESC' : 'ASC';
+            return;
+        }
+        $this->sortColumn = $column;
+        $this->sortDirection = 'ASC';
+    }
+    public function updatedPerPage()
+    {
+        $this->resetPage();
+    }
+    public function updatedSearch()
+    {
+        $this->resetPage();
     }
     public function render()
     {
-        $data = \App\Models\Regulasi_equipment::latest()->paginate(5);
+        $data = \App\Models\Regulasi_equipment::search($this->search)
+            ->orderBy($this->sortColumn, $this->sortDirection)
+            ->paginate($this->perPage);
         return view('livewire.certificate-regulation.index', ['data' => $data]);
     }
 }

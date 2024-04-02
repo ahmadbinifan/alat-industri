@@ -1,4 +1,7 @@
 <div>
+    <livewire:certificate-regulation.create />
+    <livewire:certificate-regulation.update />
+    <livewire:certificate-regulation.delete />
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Operation</a></li>
@@ -14,20 +17,46 @@
                         </h6>
                         <button type="button" class="btn btn-primary btn-icon-text" data-toggle="modal"
                             data-target="#exampleModal">
-                            <i class="btn-icon-prepend" data-feather="plus-circle"></i>
+                            <i class="btn-icon-prepend mdi mdi-plus-circle-multiple-outline"></i>
                             Create Regulation
                         </button>
                     </div>
-
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>Per Page</label>
+                            <select class="form-select" wire:model.live='perPage'>
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Search</label>
+                            <input type="text" wire:model.live.debounce.10ms="search" class="form-control"
+                                placeholder="Search..." wire:model='search'>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table id="dataTableExample" class="table">
                             <thead>
                                 <tr>
-                                    <th>Regulation No.</th>
-                                    <th>Regulation Description</th>
-                                    <th>Category</th>
-                                    <th>Check Frequency</th>
+                                    <th wire:click="doSort('regulation_no')" class="flex items-center">
+                                        <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection"
+                                            columnName="regulation_no" />
+                                    </th>
+                                    <th wire:click="doSort('regulation_desc')">
+                                        <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection"
+                                            columnName="regulation_desc" />
+                                    </th>
+                                    <th wire:click="doSort('category')">
+                                        <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="category" />
+                                    </th>
+                                    <th wire:click="doSort('check_frequency')">
+                                        <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection"
+                                            columnName="check_frequency" />
+                                    </th>
                                     <th>Document K3</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -39,13 +68,27 @@
                                         <td>{{ date('d-m-Y', strtotime($value->check_frequency)) }}</td>
                                         <td><?php
                                         if ($value->document_k3){ ?>
-                                            <button class="btn btn-sm btn-primary"
-                                                wire:click='downloadFile({{ $value->id }})'>Download
-                                                File</button>
+                                            <button class="btn btn-primary btn-xs"
+                                                wire:click='downloadFile({{ $value->id }})'>
+                                                Download
+                                            </button>
                                             <?php } else { ?>
                                             -
                                             <?php }
                                         ?>
+                                        </td>
+                                        <td><button type="button"
+                                                @click="$dispatch('edit-mode',{id:{{ $value->id }}})"
+                                                class="btn btn-warning btn-xs" data-toggle="modal"
+                                                data-target="#modalUpdate">
+                                                <i class="mdi mdi-lead-pencil" style="height: 15px;width:15px"></i>
+                                            </button>
+                                            <button type="button"
+                                                @click="$dispatch('delete-mode',{id:{{ $value->id }}})"
+                                                data-toggle="modal" data-target="#modalDelete"
+                                                class="btn btn-danger btn-xs">
+                                                <i class="mdi mdi-delete-sweep" style="height: 15px;width:15px"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 @empty
@@ -59,7 +102,6 @@
         </div>
     </div>
 
-    <livewire:certificate-regulation.create />
     <script>
         $(function() {
             $('#exampleModal').on('hidden.bs.modal', function(e) {
@@ -97,3 +139,4 @@
 
         })
     </script>
+</div>

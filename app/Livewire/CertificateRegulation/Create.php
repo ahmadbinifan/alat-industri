@@ -37,7 +37,6 @@ class Create extends Component
         DB::beginTransaction();
         try {
             $post = Regulasi_equipment::create($validated);
-            session()->flash('message', 'Certificate Regulation created successfully.');
             $this->reset();
             $this->dispatch('closeModal');
             $this->dispatch('swal', [

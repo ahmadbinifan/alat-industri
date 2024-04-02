@@ -15,4 +15,12 @@ class Regulasi_equipment extends Model
         'document_k3',
         'check_frequency',
     ];
+
+    public function scopeSearch($query, $value)
+    {
+        $query->where('regulation_no', 'like', "%{$value}%")
+            ->orWhere('regulation_desc', 'like', "%{$value}%")
+            ->orWhere('category', 'like', "%{$value}%")
+            ->orWhere('check_frequency', 'like', "%{$value}%");
+    }
 }
