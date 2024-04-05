@@ -35,12 +35,12 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                    <div class="form-check form-check-flat form-check-primary">
+                                    {{-- <div class="form-check form-check-flat form-check-primary">
                                         <label class="form-check-label">
                                             <input type="checkbox" class="form-check-input">
                                             Remember me
                                         </label>
-                                    </div>
+                                    </div> --}}
                                     <div class="mt-3 text-right">
                                         <button type="submit" class="btn btn-primary mr-2 mb-2 mb-md-0">Login</button>
                                     </div>

@@ -7,6 +7,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Session;
 
 #[Layout('layouts.master-auth')]
 class Login extends Component
@@ -22,6 +23,15 @@ class Login extends Component
         $user = User::where('username', $this->username)->where('password', md5($this->password))->first();
         if ($user) {
             Auth::login($user);
+            Session::put([
+                'fullname' => $user->fullname,
+                'email' => $user->email,
+                'id_section' => $user->id_section,
+                'id_division' => $user->id_division,
+                'department' => $user->department,
+                'group_section' => $user->group_section,
+                'id_position' => $user->id_position,
+            ]);
             redirect(route('home'));
         } else {
             redirect(route('login'));

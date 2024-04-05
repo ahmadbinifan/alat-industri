@@ -13,6 +13,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $this->call(regulasi::class);
+        $this->call(companies::class);
     }
 }

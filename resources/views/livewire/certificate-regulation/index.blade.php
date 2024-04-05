@@ -92,6 +92,7 @@
                                         </td>
                                     </tr>
                                 @empty
+                                    <td colspan="6">Not Found Data.</td>
                                 @endforelse
                             </tbody>
                         </table>

@@ -1,0 +1,114 @@
+<?php
+
+namespace App\Livewire\Equipment;
+
+use Livewire\Component;
+use App\Models\Equipment_license;
+use \App\Models\company;
+use \App\Models\equipment;
+use \App\Models\Regulasi_equipment;
+use Livewire\WithFileUploads;
+use Livewire\Attributes\Rule;
+use Illuminate\support\Facades\DB;
+
+class Create extends Component
+{
+    use WithFileUploads;
+    public $documentNo;
+    #[Rule('required')]
+    public $company;
+    #[Rule('required')]
+    public $fillingDate;
+    #[Rule('required')]
+    public $tagnumber = null;
+    #[Rule('required')]
+    public $idRegulation;
+
+    #[Rule('required')]
+    public $lastInspection;
+    #[Rule('file|mimes:pdf,doc,docx|max:2048')]
+    public $documentRequirements;
+
+    public $ownerAsset;
+    public $locationAsset;
+    public $id_section = '';
+
+
+    public function add()
+    {
+        $id_section = session('id_section');
+        if ($this->documentRequirements) {
+            $path = $this->documentRequirements->store('public/files');
+            $validated['documentRequirements'] = $path;
+            Equipment_license::create([
+                'doc_no' => $this->documentNo,
+                'company' => $this->company,
+                'filing_date' => $this->fillingDate,
+                'tag_number' => $this->tagnumber,
+                'owner_asset' => $this->ownerAsset,
+                'location_asset' => $this->locationAsset,
+                'idRegulasi' => $this->idRegulation,
+                'last_inspection' => $this->lastInspection,
+                'document_requirements' => $this->documentRequirements,
+                'id_section' => $id_section,
+            ]);
+        } else {
+            Equipment_license::create([
+                'doc_no' => $this->documentNo,
+                'company' => $this->company,
+                'filing_date' => $this->fillingDate,
+                'tag_number' => $this->tagnumber,
+                'owner_asset' => $this->ownerAsset,
+                'location_asset' => $this->locationAsset,
+                'idRegulasi' => $this->idRegulation,
+                'last_inspection' => $this->lastInspection,
+                'id_section' => $id_section,
+            ]);
+        }
+        $this->reset();
+        $this->dispatch('closeModal');
+        $this->dispatch('swal', [
+            'title' => 'Success',
+            'text' => 'Equipment License created successfully.',
+            'icon' => 'success',
+        ]);
+        $this->dispatch('refresh-list');
+    }
+    public function updatedTagnumber()
+    {
+        $equipment = equipment::where('tag_number', $this->tagnumber)->first();
+        $this->ownerAsset = $equipment->owner1;
+        $this->locationAsset = $equipment->location;
+    }
+    public function generateDocNo()
+    {
+        $id = session('id_section');
+
+        // $max = Equipment_license::where('doc_no', 'like', "EL/{$id}-%/" . date('Y') . "/")
+        //     ->max(\DB::raw("CAST(RIGHT(doc_no, 3) AS SIGNED)"));
+        $max = Equipment_license::where('doc_no', 'like', "EL/{$id}-" . date('Y') . "/%")
+            ->max(\DB::raw("CAST(SUBSTRING(doc_no, LENGTH(doc_no) - 2) AS SIGNED)"));
+        $max = $max ? $max + 1 : 1;
+        $max = sprintf("%03d", $max);
+        $format = "EL/{$id}-" . date('Y') . "/{$max}";
+        return $format;
+    }
+
+    public function close()
+    {
+        $this->reset();
+    }
+    public function render()
+    {
+        $this->fillingDate = date('Y-m-d');
+        $this->documentNo = $this->generateDocNo();
+        $companies = company::get();
+        $tag_number = equipment::get();
+        $regulation = Regulasi_equipment::get();
+        return view('livewire.equipment.create', [
+            'companies' => $companies,
+            'tag_number' => $tag_number,
+            'regulation' => $regulation
+        ]);
+    }
+}
