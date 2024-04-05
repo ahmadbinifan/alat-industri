@@ -10,7 +10,7 @@ class Detail extends Component
 {
 
     public $id, $documentNo, $company, $fillingDate, $tagnumber, $idRegulation, $lastInspection,
-        $documentRequirements, $ownerAsset, $locationAsset, $id_section, $status;
+        $documentRequirements, $ownerAsset, $locationAsset, $id_section, $status, $attachFromHSE;
 
     #[\Livewire\Attributes\On('detail-mode')]
     public function detail($id)
@@ -36,6 +36,7 @@ class Detail extends Component
                 $this->documentRequirements = $eq->document_requirements;
                 $this->idRegulation = $reg->regulation_no . " - " . $reg->regulation_desc;
                 $this->status = $eq->status;
+                $this->attachFromHSE = $eq->attachFromHSE;
             }
         } catch (\Throwable $th) {
             $this->dispatch('swal', [
@@ -53,6 +54,12 @@ class Detail extends Component
     {
         $eq = Equipment_license::findOrFail($this->id);
         $filePath = storage_path('app/' . $eq->document_requirements); // Sesuaikan dengan path file Anda
+        return response()->download($filePath);
+    }
+    public function downloadFileHSE()
+    {
+        $eq = Equipment_license::findOrFail($this->id);
+        $filePath = storage_path('app/' . $eq->attachFromHSE); // Sesuaikan dengan path file Anda
         return response()->download($filePath);
     }
     public function close()

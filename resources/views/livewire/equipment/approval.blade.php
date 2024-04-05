@@ -22,10 +22,16 @@
                                             <small class="text-danger d-block mt-1">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                    @if (session('id_section') == 'HRD' || session('id_section') == 'LEG')
+                                    @if (session('id_section') == 'LEG' && session('id_position') == "ADMIN")
                                         <div class="form-group">
                                             <label>Estimated Cost</label>
                                             <input type="text" wire:model="estimatedCost" class="form-control">
+                                        </div>
+                                    @endif
+                                    @if (session('id_section') == 'HSE' && session('id_position') == "ADMIN")
+                                        <div class="form-group">
+                                            <label>Attachment</label>
+                                            <input type="file" wire:model="attachFromHSE" class="form-control">
                                         </div>
                                     @endif
                                 </div>
@@ -44,7 +50,10 @@
         window.addEventListener('openApprove', event => {
             $("#modalApproval").modal('show');
         })
-        window.addEventListener('closeDetail', event => {
+        window.addEventListener('closeModal', event => {
+            $("#modalApproval").modal('hide');
+        })
+        window.addEventListener('closeModal', event => {
             $("#modalDetail").modal('hide');
         })
     </script>

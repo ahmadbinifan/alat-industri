@@ -84,6 +84,16 @@
                                         @endif
                                     </div>
                                 </div>
+                                @if ($attachFromHSE)
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Document From HSE</label>
+                                            <a wire:click="downloadFileHSE"
+                                                class="btn btn-secondary form-control mdi mdi-download">Download
+                                                Attachment</a>
+                                        </div>
+                                </div>
+                                @endif
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -93,6 +103,36 @@
                                 <button type="button" wire:click="reject" wire:loading.attr="disabled"
                                     class="btn btn-danger">Reject</button>
                             @endif
+                            @if ($status == 'wait_adm_legal' && session('id_position') == 'ADMIN' && session('id_section') == "LEG")
+                                <button type="button" wire:click="openApprove({{ $id }})"
+                                    class="btn btn-primary">Approve</button>
+                                <button type="button" wire:click="reject" wire:loading.attr="disabled"
+                                    class="btn btn-danger">Reject</button>
+                            @endif
+                            @if ($status == 'wait_dep_hrd' && session('id_position') == 'SECTHEAD' && session('id_section') == "HRD")
+                                <button type="button" wire:click="openApprove({{ $id }})"
+                                    class="btn btn-primary">Approve</button>
+                                <button type="button" wire:click="reject" wire:loading.attr="disabled"
+                                    class="btn btn-danger">Reject</button>
+                            @endif
+                            @if ($status == 'wait_adm_hse' && session('id_position') == 'ADMIN' && session('id_section') == "HSE")
+                                <button type="button" wire:click="openApprove({{ $id }})"
+                                    class="btn btn-primary">Approve</button>
+                                <button type="button" wire:click="reject" wire:loading.attr="disabled"
+                                    class="btn btn-danger">Reject</button>
+                            @endif
+                            @if ($status == 'wait_dep_hse' && session('id_position') == 'SECTHEAD' && session('id_section') == "HSE")
+                                <button type="button" wire:click="openApprove({{ $id }})"
+                                    class="btn btn-primary">Approve</button>
+                                <button type="button" wire:click="reject" wire:loading.attr="disabled"
+                                    class="btn btn-danger">Reject</button>
+                            @endif
+                            @if ($status == 'wait_budgetcontrol' && session('id_position') == 'BUSINESS_CONTROL')
+                            <button type="button" wire:click="openApprove({{ $id }})"
+                                class="btn btn-primary">Approve</button>
+                            <button type="button" wire:click="reject" wire:loading.attr="disabled"
+                                class="btn btn-danger">Reject</button>
+                        @endif
                         </div>
                     </form>
                 </div>

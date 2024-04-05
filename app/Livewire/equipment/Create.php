@@ -72,7 +72,7 @@ class Create extends Component
             'text' => 'Equipment License created successfully.',
             'icon' => 'success',
         ]);
-        $this->dispatch('refresh-list');
+        $this->dispatch('refresh');
     }
     public function updatedTagnumber()
     {

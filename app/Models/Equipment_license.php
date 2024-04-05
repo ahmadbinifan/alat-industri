@@ -13,7 +13,8 @@ class Equipment_license extends Model
     protected $table = 'equipment_license';
     protected $fillable = [
         'doc_no', 'company', 'filing_date', 'tag_number', 'owner_asset', 'location_asset',
-        'document_requirements', 'idRegulasi', 'last_inspection', 'estimated_cost', 'status', 'id_section'
+        'document_requirements', 'idRegulasi', 'last_inspection', 'estimated_cost', 'status', 'id_section',
+        'status', 'attachFromHSE'
     ];
     public function regulasi(): HasOne
     {

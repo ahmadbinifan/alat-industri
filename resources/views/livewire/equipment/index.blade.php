@@ -70,7 +70,7 @@
                                                     <span class="badge badge-primary">WAIT DEP<span>
                                                         @break
 
-                                                        @case('wait_admin_legal')
+                                                        @case('wait_adm_legal')
                                                             <span class="badge badge-primary">WAIT ADMIN LEGAL<span>
                                                                 @break
 
@@ -78,7 +78,7 @@
                                                                     <span class="badge badge-primary">WAIT DEP HRD<span>
                                                                         @break
 
-                                                                        @case('wait_admin_hse')
+                                                                        @case('wait_adm_hse')
                                                                             <span class="badge badge-primary">WAIT ADMIN
                                                                                 HSE<span>
                                                                                 @break
@@ -88,10 +88,10 @@
                                                                                         HSE<span>
                                                                                         @break
 
-                                                                                        @case('wait_budgetcontroll')
+                                                                                        @case('wait_budgetcontrol')
                                                                                             <span
                                                                                                 class="badge badge-primary">WAIT
-                                                                                                BUDGET CONTROLL<span>
+                                                                                                BUDGET CONTROL<span>
                                                                                                 @break
 
                                                                                                 @case('in_progress_prpo')
