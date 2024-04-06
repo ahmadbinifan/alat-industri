@@ -37,7 +37,11 @@ class Equipment extends Component
     public function render()
     {
         if (session('id_section') == "LEG" || session('id_section') == "HRD") {
-            $data = \App\Models\Equipment_license::where('status', 'wait_adm_legal')->orWhere('status', 'wait_dep_hrd')->search($this->search)
+            $data = \App\Models\Equipment_license::where('status', 'wait_adm_legal')
+                ->orWhere('status', 'wait_dep_hrd')
+                ->orWhere('status', 'in_progress_prpo')
+                ->orWhere('status', 'license_running')
+                ->search($this->search)
                 ->orderBy($this->sortColumn, $this->sortDirection)
                 ->paginate($this->perPage);
         } elseif (session('id_section') == "HSE") {

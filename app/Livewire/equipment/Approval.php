@@ -4,6 +4,7 @@ namespace App\Livewire\Equipment;
 
 use Livewire\Component;
 use App\Models\Equipment_license;
+use App\Models\detail_equipment;
 use App\Models\approval_equipment_license;
 use Illuminate\Support\Facades\DB;
 use Livewire\WithFileUploads;
@@ -49,10 +50,16 @@ class Approval extends Component
                     break;
                 case 'wait_dep_hrd':
                     $this->storeApprove($data_approve);
-                    Equipment_license::where('id', $id)->update([
-                        'status' => 'wait_adm_hse',
-                        'estimated_cost' => $this->estimatedCost
-                    ]);
+                    $detail =  detail_equipment::where('status', 'close')->first();
+                    if ($detail) {
+                        Equipment_license::where('id', $id)->update([
+                            'status' => 'license_running',
+                        ]);
+                    } else {
+                        Equipment_license::where('id', $id)->update([
+                            'status' => 'wait_adm_hse',
+                        ]);
+                    }
                     break;
                 case 'wait_adm_hse':
                     $this->storeApprove($data_approve);

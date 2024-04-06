@@ -7,6 +7,7 @@ use App\Models\Equipment_license;
 use \App\Models\company;
 use \App\Models\equipment;
 use \App\Models\Regulasi_equipment;
+use \App\Models\detail_equipment;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Rule;
 use Illuminate\support\Facades\DB;
@@ -52,6 +53,9 @@ class Create extends Component
                 'document_requirements' => $this->documentRequirements,
                 'id_section' => $id_section,
             ]);
+            detail_equipment::create([
+                'doc_no' => $this->documentNo
+            ]);
         } else {
             Equipment_license::create([
                 'doc_no' => $this->documentNo,
@@ -63,6 +67,10 @@ class Create extends Component
                 'idRegulasi' => $this->idRegulation,
                 'last_inspection' => $this->lastInspection,
                 'id_section' => $id_section,
+            ]);
+            detail_equipment::create([
+                'doc_no' => $this->documentNo,
+                'status' => 'open'
             ]);
         }
         $this->reset();

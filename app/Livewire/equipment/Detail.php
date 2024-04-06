@@ -4,13 +4,16 @@ namespace App\Livewire\Equipment;
 
 use Livewire\Component;
 use App\Models\Equipment_license;
+use App\Models\detail_equipment;
 use App\Models\Regulasi_equipment;
 
 class Detail extends Component
 {
 
     public $id, $documentNo, $company, $fillingDate, $tagnumber, $idRegulation, $lastInspection,
-        $documentRequirements, $ownerAsset, $locationAsset, $id_section, $status, $attachFromHSE;
+        $documentRequirements, $ownerAsset, $locationAsset, $id_section, $status, $attachFromHSE,
+        $licenseNo, $licenseFrom, $issuedDateDocument, $lastLicenseDate, $reminderCheckingDate, $reminderTestingDate,
+        $frequencyCheck, $reLicense, $frequencyTesting, $reLicenseTesting, $reminderSchedule, $statusDetail;
 
     #[\Livewire\Attributes\On('detail-mode')]
     public function detail($id)
@@ -18,6 +21,7 @@ class Detail extends Component
         $this->id = $id;
         try {
             $eq = Equipment_license::findOrFail($id);
+            $detail = detail_equipment::where('doc_no', $eq->doc_no)->first();
             $reg = Regulasi_equipment::where('id', $eq->idRegulasi)->first();
             if (!$eq) {
                 $this->dispatch('swal', [
@@ -37,6 +41,18 @@ class Detail extends Component
                 $this->idRegulation = $reg->regulation_no . " - " . $reg->regulation_desc;
                 $this->status = $eq->status;
                 $this->attachFromHSE = $eq->attachFromHSE;
+                $this->licenseNo = $detail->license_no;
+                $this->licenseFrom = $detail->license_from;
+                $this->issuedDateDocument = $detail->issued_date_document;
+                $this->lastLicenseDate = $detail->last_license_date;
+                $this->reminderCheckingDate = $detail->reminder_checking_date;
+                $this->reminderTestingDate = $detail->reminder_testing_date;
+                $this->frequencyCheck = $detail->frequency_check;
+                $this->reLicense = $detail->re_license;
+                $this->frequencyTesting = $detail->frequency_testing;
+                $this->reLicenseTesting = $detail->re_license_testing;
+                $this->reminderSchedule = $detail->reminderSchedule;
+                $this->statusDetail = $detail->status;
             }
         } catch (\Throwable $th) {
             $this->dispatch('swal', [
@@ -45,6 +61,38 @@ class Detail extends Component
                 'icon' => 'error',
             ]);
         }
+    }
+    public function updatePRPO()
+    {
+        detail_equipment::where('doc_no', $this->documentNo)->update([
+            'license_no' => $this->licenseNo,
+            'license_from' => $this->licenseFrom,
+            'issued_date_document' => $this->issuedDateDocument,
+            'last_license_date' => $this->lastLicenseDate,
+            'reminder_checking_date' => $this->reminderCheckingDate,
+            'reminder_testing_date' => $this->reminderTestingDate,
+            'frequency_check' => $this->frequencyCheck,
+            're_license' => $this->reLicense,
+            'frequency_testing' => $this->frequencyTesting,
+            're_license_testing' => $this->reLicenseTesting,
+            'status' => 'close',
+        ]);
+        Equipment_license::where('doc_no', $this->documentNo)->update([
+            'status' => 'wait_dep_hrd'
+        ]);
+        $this->dispatch('closeModal');
+        $this->dispatch('swal', [
+            'title' => 'Success',
+            'text' => 'Certificate Regulation created successfully.',
+            'icon' => 'success',
+        ]);
+        return redirect()->route('equipment');
+    }
+    public function reminderScheduleUpdate()
+    {
+        detail_equipment::where('doc_no', $this->documentNo)->update([
+            'reminderSchedule' => $this->reminderSchedule
+        ]);
     }
     public function openApprove($id)
     {
