@@ -133,7 +133,7 @@
                                         </td>
                                     </tr>
                                     @empty
-                                        <td colspan="6">Not Found Data.</td>
+                                        <td colspan="6" class="text-center">Not Found Data.</td>
                                     @endforelse
                                 </tbody>
                             </table>

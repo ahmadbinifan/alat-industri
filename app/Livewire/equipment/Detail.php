@@ -90,11 +90,11 @@ class Detail extends Component
             'doc_no' => $eq->doc_no,
             'subject' => 'Need Re License Equipment'
         ];
-        $originalSchedule = Carbon::parse($detail->reminder_checking_date);
-        $newSchedule = $originalSchedule->copy()->setHour(22)->setMinute(57)->setSecond(0);
-        reminderLicense::dispatch($person, $bodyEmail)->delay($newSchedule);
-
-
+        if ($this->reminderSchedule == 'yes') {
+            $originalSchedule = Carbon::parse($detail->reminder_checking_date);
+            $newSchedule = $originalSchedule->copy()->setHour(22)->setMinute(57)->setSecond(0);
+            reminderLicense::dispatch($person, $bodyEmail)->delay($newSchedule);
+        }
 
         $this->dispatch('closeModal');
         $this->dispatch('swal', [
