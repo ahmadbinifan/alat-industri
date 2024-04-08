@@ -105,6 +105,10 @@
                                                                                                                 class="badge badge-success">LICENSE
                                                                                                                 RUNNING<span>
                                                                                                                 @break
+                                                                                                        @case('need_re_license')
+                                                                                                            <span
+                                                                                                                class="badge badge-danger">NEED RE LICENSE<span>
+                                                                                                                @break
 
                                                                                                                 @default
                                                                                                                     <span
