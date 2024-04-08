@@ -42,6 +42,8 @@ class notificationEmail extends Mailable
     {
         if ($this->body['subject'] == "License Equipment is Running") {
             $view = 'livewire.mail.license-running';
+        } elseif ($this->body['subject'] == "Need Re License Equipment") {
+            $view = 'livewire.mail.re-license';
         } else {
             $view = 'livewire.mail.index';
         }

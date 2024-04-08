@@ -2,10 +2,13 @@
 
 namespace App\Livewire\Equipment;
 
+use App\Jobs\reminderLicense;
 use Livewire\Component;
 use App\Models\Equipment_license;
 use App\Models\detail_equipment;
 use App\Models\Regulasi_equipment;
+use App\Models\User;
+use Carbon\Carbon;
 
 class Detail extends Component
 {
@@ -80,6 +83,19 @@ class Detail extends Component
         Equipment_license::where('doc_no', $this->documentNo)->update([
             'status' => 'wait_dep_hrd'
         ]);
+        $eq = Equipment_license::where('doc_no', $this->documentNo)->first();
+        $detail = detail_equipment::where('doc_no', $this->documentNo)->first();
+        $person = User::where('id_section', $eq->id_section)->where('id_position', 'ADMIN')->first();
+        $bodyEmail = [
+            'doc_no' => $eq->doc_no,
+            'subject' => 'Need Re License Equipment'
+        ];
+        $originalSchedule = Carbon::parse($detail->reminder_checking_date);
+        $newSchedule = $originalSchedule->copy()->setHour(22)->setMinute(57)->setSecond(0);
+        reminderLicense::dispatch($person, $bodyEmail)->delay($newSchedule);
+
+
+
         $this->dispatch('closeModal');
         $this->dispatch('swal', [
             'title' => 'Success',
