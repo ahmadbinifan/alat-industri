@@ -2,14 +2,17 @@
 
 namespace App\Livewire\Equipment;
 
+use App\Mail\notificationEmail;
 use Livewire\Component;
 use App\Models\Equipment_license;
 use \App\Models\company;
 use \App\Models\equipment;
 use \App\Models\Regulasi_equipment;
 use \App\Models\detail_equipment;
+use App\Models\User;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Rule;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\support\Facades\DB;
 
 class Create extends Component
@@ -38,6 +41,11 @@ class Create extends Component
     public function add()
     {
         $id_section = session('id_section');
+        $person = User::where('id_section', session('id_section'))->where('id_position', 'SECTHEAD')->first();
+        $bodyEmail = [
+            'doc_no' => $this->documentNo,
+            'subject' => 'Need Approval License Equipment'
+        ];
         if ($this->documentRequirements) {
             $path = $this->documentRequirements->store('public/files');
             $validated['documentRequirements'] = $path;
@@ -73,6 +81,7 @@ class Create extends Component
                 'status' => 'open'
             ]);
         }
+        Mail::to($person->email)->send(new notificationEmail($person, $bodyEmail));
         $this->reset();
         $this->dispatch('closeModal');
         $this->dispatch('swal', [
