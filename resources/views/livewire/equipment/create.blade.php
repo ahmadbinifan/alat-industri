@@ -61,8 +61,8 @@
                                 <div class="col-md-4" wire:ignore>
                                     <div class="form-group">
                                         <label>Tag Number Asset</label>
-                                        <select class="form-select tagnumber" style="width: 100%" wire:model="tagnumber"
-                                            id="tagnumber" name="tagNumber">
+                                        <select class="form-select" id="tagnumbers" style="width: 100%"
+                                            wire:model="tagnumber" id="tagnumber" name="tagNumber">
                                             @foreach ($tag_number as $value)
                                                 <option value="{{ $value->tag_number }}">{{ $value->tag_number }}
                                                 </option>
@@ -123,6 +123,8 @@
                         </div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" wire:click="draft" wire:loading.attr="disabled"
+                        class="btn btn-warning">Draft</button>
                     <button type="button" wire:click="add" wire:loading.attr="disabled"
                         class="btn btn-primary">Submit</button>
                 </div>
@@ -143,17 +145,3 @@
 @push('custom-scripts')
     <script src="{{ asset('assets/js/select2.js') }}"></script>
 @endpush
-@script
-    <script>
-        $(document).ready(function() {
-            $('.tagnumber').select2();
-            $('#idRegulation').select2();
-            $('.tagnumber').on('change', function(event) {
-                $wire.set('tagnumber', event.target.value)
-            });
-            $('#idRegulation').on('change', function(event) {
-                $wire.set('idRegulation', event.target.value)
-            });
-        })
-    </script>
-@endscript

@@ -38,6 +38,55 @@ class Create extends Component
     public $id_section = '';
 
 
+    public function draft()
+    {
+        $id_section = session('id_section');
+        if ($this->documentRequirements) {
+            $path = $this->documentRequirements->store('public/files');
+            $validated['documentRequirements'] = $path;
+            Equipment_license::create([
+                'doc_no' => $this->documentNo,
+                'company' => $this->company,
+                'filing_date' => $this->fillingDate,
+                'tag_number' => $this->tagnumber,
+                'owner_asset' => $this->ownerAsset,
+                'location_asset' => $this->locationAsset,
+                'idRegulasi' => $this->idRegulation,
+                'last_inspection' => $this->lastInspection,
+                'document_requirements' => $path,
+                'id_section' => $id_section,
+                'status' => 'draft',
+            ]);
+            detail_equipment::create([
+                'doc_no' => $this->documentNo
+            ]);
+        } else {
+            Equipment_license::create([
+                'doc_no' => $this->documentNo,
+                'company' => $this->company,
+                'filing_date' => $this->fillingDate,
+                'tag_number' => $this->tagnumber,
+                'owner_asset' => $this->ownerAsset,
+                'location_asset' => $this->locationAsset,
+                'idRegulasi' => $this->idRegulation,
+                'last_inspection' => $this->lastInspection,
+                'id_section' => $id_section,
+                'status' => 'draft',
+            ]);
+            detail_equipment::create([
+                'doc_no' => $this->documentNo,
+                'status' => 'open'
+            ]);
+        }
+        $this->reset();
+        $this->dispatch('closeModal');
+        $this->dispatch('swal', [
+            'title' => 'Success',
+            'text' => 'Equipment License is Draft.',
+            'icon' => 'warning',
+        ]);
+        $this->dispatch('refresh');
+    }
     public function add()
     {
         $id_section = session('id_section');
@@ -58,7 +107,7 @@ class Create extends Component
                 'location_asset' => $this->locationAsset,
                 'idRegulasi' => $this->idRegulation,
                 'last_inspection' => $this->lastInspection,
-                'document_requirements' => $this->documentRequirements,
+                'document_requirements' => $path,
                 'id_section' => $id_section,
             ]);
             detail_equipment::create([

@@ -105,35 +105,46 @@
                                                                                                                 class="badge badge-success">LICENSE
                                                                                                                 RUNNING<span>
                                                                                                                 @break
-                                                                                                        @case('need_re_license')
-                                                                                                            <span
-                                                                                                                class="badge badge-danger">NEED RE LICENSE<span>
-                                                                                                                @break
 
-                                                                                                                @default
+                                                                                                                @case('need_re_license')
                                                                                                                     <span
-                                                                                                                        class="badge badge-danger">NO
-                                                                                                                        STATUS<span>
-                                                                                                                    @endswitch
+                                                                                                                        class="badge badge-danger">NEED
+                                                                                                                        RE
+                                                                                                                        LICENSE<span>
+                                                                                                                        @break
+
+                                                                                                                        @case('draft')
+                                                                                                                            <span
+                                                                                                                                class="badge badge-warning">DRAFT<span>
+                                                                                                                                @break
+
+                                                                                                                                @default
+                                                                                                                                    <span
+                                                                                                                                        class="badge badge-danger">NO
+                                                                                                                                        STATUS<span>
+                                                                                                                                    @endswitch
                                         </td>
-                                        <td><button type="button"
-                                                @click="$dispatch('detail-mode',{id:{{ $value->id }}})"
+                                        <td><button type="button" @click="$dispatch('detail',{id:{{ $value->id }}})"
                                                 class="btn btn-success btn-xs" data-toggle="modal"
                                                 data-target="#modalDetail">
                                                 <i class="mdi mdi-eye" style="height: 15px;width:15px"></i>
                                             </button>
+                                            {{-- @if ($value->status == 'draft' && $value->id_section == session('id_section')) --}}
                                             <button type="button"
                                                 @click="$dispatch('edit-mode',{id:{{ $value->id }}})"
                                                 class="btn btn-warning btn-xs" data-toggle="modal"
                                                 data-target="#modalUpdate">
                                                 <i class="mdi mdi-lead-pencil" style="height: 15px;width:15px"></i>
                                             </button>
+                                            {{-- @endif --}}
+                                            {{-- @if (session('username') == 'superuser') --}}
                                             <button type="button"
                                                 @click="$dispatch('delete-mode',{id:{{ $value->id }}})"
                                                 data-toggle="modal" data-target="#modalDelete"
                                                 class="btn btn-danger btn-xs">
                                                 <i class="mdi mdi-delete-sweep" style="height: 15px;width:15px"></i>
                                             </button>
+                                            {{-- @endif --}}
                                         </td>
                                     </tr>
                                     @empty
@@ -149,7 +160,7 @@
         </div>
         <script>
             $(function() {
-                $('#exampleModal').on('hidden.bs.modal', function(e) {
+                $('#modalCreate').on('hidden.bs.modal', function(e) {
                     $(this).find('form').trigger('reset');
                 })
             })

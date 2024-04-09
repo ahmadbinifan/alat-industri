@@ -18,7 +18,7 @@ class Detail extends Component
         $licenseNo, $licenseFrom, $issuedDateDocument, $lastLicenseDate, $reminderCheckingDate, $reminderTestingDate,
         $frequencyCheck, $reLicense, $frequencyTesting, $reLicenseTesting, $reminderSchedule, $statusDetail;
 
-    #[\Livewire\Attributes\On('detail-mode')]
+    #[\Livewire\Attributes\On('detail')]
     public function detail($id)
     {
         $this->id = $id;
