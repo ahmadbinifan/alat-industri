@@ -179,7 +179,7 @@
                                         <div class="form-group">
                                             <label>Reminder Schedule</label>
                                             <select wire:model='reminderSchedule' wire:change='reminderScheduleUpdate'
-                                                class="form-control" {{ $statusDetail == 'close' ? 'readonly' : '' }}>
+                                                class="form-control" {{ $statusDetail == 'close' ? 'disabled' : '' }}>
                                                 <option value="-">-</option>
                                                 <option value="yes">Yes</option>
                                                 <option value="no">No</option>

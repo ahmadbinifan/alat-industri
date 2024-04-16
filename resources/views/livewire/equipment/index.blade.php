@@ -170,7 +170,6 @@
         @endpush
         @push('plugin-scripts')
             <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
-            <script src="{{ asset('assets/plugins/promise-polyfill/polyfill.min.js') }}"></script>
         @endpush
         <script>
             document.addEventListener('livewire:initialized', () => {

@@ -37,13 +37,12 @@ class Create extends Component
     public $locationAsset;
     public $id_section = '';
 
-
     public function draft()
     {
         $id_section = session('id_section');
         if ($this->documentRequirements) {
             $path = $this->documentRequirements->store('public/files');
-            $validated['documentRequirements'] = $path;
+            // $validated['documentRequirements'] = $path;
             Equipment_license::create([
                 'doc_no' => $this->documentNo,
                 'company' => $this->company,
@@ -97,7 +96,7 @@ class Create extends Component
         ];
         if ($this->documentRequirements) {
             $path = $this->documentRequirements->store('public/files');
-            $validated['documentRequirements'] = $path;
+            // $validated['documentRequirements'] = $path;
             Equipment_license::create([
                 'doc_no' => $this->documentNo,
                 'company' => $this->company,

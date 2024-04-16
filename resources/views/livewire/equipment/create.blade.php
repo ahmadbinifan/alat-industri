@@ -1,12 +1,15 @@
 <div>
     @push('plugin-styles')
         <link href="{{ asset('assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+        <link href="{{ asset('assets/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet" />
         <style>
             .bigdrop {
                 width: 600px !important;
             }
         </style>
     @endpush
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
     <div class="modal fade" wire:ignore.self id="modalCreate" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
@@ -61,8 +64,8 @@
                                 <div class="col-md-4" wire:ignore>
                                     <div class="form-group">
                                         <label>Tag Number Asset</label>
-                                        <select class="form-select" id="tagnumbers" style="width: 100%"
-                                            wire:model="tagnumber" id="tagnumber" name="tagNumber">
+                                        <select class="form-select" id="createTagNumber" style="width: 100%"
+                                            wire:model="tagnumber" name="tagNumber">
                                             @foreach ($tag_number as $value)
                                                 <option value="{{ $value->tag_number }}">{{ $value->tag_number }}
                                                 </option>
@@ -90,7 +93,7 @@
                                 <div class="col-md-6" wire:ignore>
                                     <div class="form-group">
                                         <label>Regulation No.</label>
-                                        <select class="form-control" id="idRegulation" wire:model="idRegulation"
+                                        <select class="form-control" id="createIdRegulation" wire:model="idRegulation"
                                             style="width: 100%">
                                             <option value="-">NA.</option>
                                             @foreach ($regulation as $value)
@@ -114,10 +117,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group">
-                                    <label>Document Requirements</label>
-                                    <input type="file" wire:model="documentRequirements" class="form-control">
+                            <div class="row" wire:ignore>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Document Requirements</label>
+                                        <input type="file" wire:model="documentRequirements" id="myDropify"
+                                            class="border" data-allowed-file-extensions="pdf doc docx" />
+                                        {{-- <input type="file" wire:model="documentRequirements" class="dropzone"> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +148,27 @@
 
 @push('plugin-scripts')
     <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/dropify/js/dropify.min.js') }}"></script>
 @endpush
 @push('custom-scripts')
     <script src="{{ asset('assets/js/select2.js') }}"></script>
+    <script src="{{ asset('assets/js/dropify.js') }}"></script>
 @endpush
+@script
+    <script>
+        $(document).ready(function() {
+            $('#createTagNumber').select2();
+            $('#createTagNumber').on('change', function(event) {
+                $wire.set('tagnumber', event.target.value)
+            });
+            $('#myDropify').on('change', function(event) {
+                $wire.set('documentRequirements', event.target.value)
+            });
+            $('#createIdRegulation').select2();
+            $('#createIdRegulation').on('change', function(event) {
+                $wire.set('idRegulation', event.target.value)
+            });
+
+        })
+    </script>
+@endscript

@@ -61,14 +61,10 @@
                                 <div class="col-md-4" wire:ignore>
                                     <div class="form-group">
                                         <label>Tag Number Asset</label>
-                                        <select class="form-select tagnumber" style="width: 100%" wire:model="tagnumber"
-                                            id="tagnumber" name="tagNumber">
+                                        <select class="form-select" style="width: 100%" wire:model="tagnumber"
+                                            id="updateTagNumber" name="tagNumber">
                                             @foreach ($tag_number as $value)
-                                                <option value="{{ $value->tag_number }}" <?php
-                                                if ($value->tag_number === $tagnumber) {
-                                                    echo 'selected';
-                                                }
-                                                ?>>
+                                                <option value="{{ $value->tag_number }}">
                                                     {{ $value->tag_number }}
                                                 </option>
                                             @endforeach
@@ -120,9 +116,35 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group">
-                                    <label>Document Requirements</label>
-                                    <input type="file" wire:model="documentRequirements" class="form-control">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Document Requirements</label>
+                                        @if ($documentRequirements)
+                                            <div class="input-group">
+                                                <input type="text" class="form-control"
+                                                    value="{{ $documentRequirements }}" disabled />
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">
+                                                        <a href="#" type="button"
+                                                            wire:click="removeAttachments">x</a>
+                                                    </div>
+                                                </div>
+                                                <div wire:loading wire:target='removeAttachments'>
+                                                    Loading..
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if (!$documentRequirements)
+                                            <div>
+                                                <input type="file" wire:model="documentRequirements"
+                                                    class="form-control">
+                                            </div>
+                                            <div wire:loading wire:target='documentRequirements'>
+                                                Loading..
+                                            </div>
+                                        @endif
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -153,8 +175,8 @@
 @script
     <script>
         $(document).ready(function() {
-            $('.tagnumber').select2();
-            $('.tagnumber').on('change', function(event) {
+            $('#updateTagNumber').select2();
+            $('#updateTagNumber').on('change', function(event) {
                 $wire.set('tagnumber', event.target.value)
             });
             $('#idRegulations').select2();

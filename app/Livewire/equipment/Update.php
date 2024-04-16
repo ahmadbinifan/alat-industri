@@ -23,7 +23,7 @@ class Update extends Component
     #[Rule('required')]
     public $fillingDate;
     #[Rule('required')]
-    public $tagnumber = null;
+    public $tagnumber;
     #[Rule('required')]
     public $idRegulation;
 
@@ -35,8 +35,11 @@ class Update extends Component
     public $ownerAsset;
     public $locationAsset;
     public $id_section = '';
+    public $showDr = false;
+    public $showDel = false;
 
     #[\Livewire\Attributes\On('edit-mode')]
+
     public function edit($id)
     {
         try {
@@ -120,7 +123,6 @@ class Update extends Component
     }
     public function draft()
     {
-        // dd(gettype($this->documentRequirements), $this->documentRequirements);
         if ($this->documentRequirements) {
             $path = $this->documentRequirements->store('public/files');
             $validated['documentRequirements'] = $path;
@@ -162,6 +164,19 @@ class Update extends Component
     public function close()
     {
         $this->reset();
+    }
+    public function updatedTagnumber()
+    {
+        $equipment = equipment::where('tag_number', $this->tagnumber)->first();
+        $this->ownerAsset = $equipment->owner1;
+        $this->locationAsset = $equipment->location;
+    }
+    public function removeAttachments()
+    {
+        $eq =   Equipment_license::where('document_requirements', $this->documentRequirements)->update([
+            'document_requirements' => null
+        ]);
+        $this->documentRequirements = null;
     }
     public function render()
     {
