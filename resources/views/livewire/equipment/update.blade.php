@@ -108,7 +108,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Last Inpection</label>
-                                        <input type="date" wire:model="lastInspection" class="form-control">
+                                        <input type="text" wire:model="lastInspection" class="form-control">
                                         @error('lastInspection')
                                             <small class="text-danger d-block mt-1">{{ $message }}</small>
                                         @enderror
@@ -136,10 +136,10 @@
                                         @endif
                                         @if (!$documentRequirements)
                                             <div>
-                                                <input type="file" wire:model="documentRequirements"
+                                                <input type="file" wire:model="documentRequirementsU"
                                                     class="form-control">
                                             </div>
-                                            <div wire:loading wire:target='documentRequirements'>
+                                            <div wire:loading wire:target='documentRequirementsU'>
                                                 Loading..
                                             </div>
                                         @endif

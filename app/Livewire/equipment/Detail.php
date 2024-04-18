@@ -3,17 +3,20 @@
 namespace App\Livewire\Equipment;
 
 use App\Jobs\reminderLicense;
+use App\Livewire\equipment\Equipment;
+use App\Models\approval_equipment_license;
 use Livewire\Component;
 use App\Models\Equipment_license;
 use App\Models\detail_equipment;
 use App\Models\Regulasi_equipment;
+use App\Models\equipment as masterEQ;
 use App\Models\User;
 use Carbon\Carbon;
 
 class Detail extends Component
 {
 
-    public $id, $documentNo, $company, $fillingDate, $tagnumber, $idRegulation, $lastInspection,
+    public $id, $documentNo, $company, $fillingDate, $tagnumber, $descriptionAsset, $idRegulation, $lastInspection,
         $documentRequirements, $ownerAsset, $locationAsset, $id_section, $status, $attachFromHSE,
         $licenseNo, $licenseFrom, $issuedDateDocument, $lastLicenseDate, $reminderCheckingDate, $reminderTestingDate,
         $frequencyCheck, $reLicense, $frequencyTesting, $reLicenseTesting, $reminderSchedule, $statusDetail;
@@ -26,6 +29,8 @@ class Detail extends Component
             $eq = Equipment_license::findOrFail($id);
             $detail = detail_equipment::where('doc_no', $eq->doc_no)->first();
             $reg = Regulasi_equipment::where('id', $eq->idRegulasi)->first();
+            $master_equipment = masterEQ::where('tag_number', $eq->tag_number)->first();
+
             if (!$eq) {
                 $this->dispatch('swal', [
                     'title' => 'Error',
@@ -56,7 +61,9 @@ class Detail extends Component
                 $this->reLicenseTesting = $detail->re_license_testing;
                 $this->reminderSchedule = $detail->reminderSchedule;
                 $this->statusDetail = $detail->status;
+                $this->descriptionAsset = $master_equipment->description;
             }
+            // dd($this->descriptionAsset);
         } catch (\Throwable $th) {
             $this->dispatch('swal', [
                 'title' => 'Error',
@@ -64,6 +71,17 @@ class Detail extends Component
                 'icon' => 'error',
             ]);
         }
+    }
+    public function storeApprove()
+    {
+        $data = [
+            'doc_no' => $this->documentNo,
+            'fullname' => session('fullname'),
+            'id_section' => $this->id_section,
+            'note' => 'Updated License No. , reminder notification, etc..',
+            'approved_at' => date('Y-m-d H:i:s'),
+        ];
+        return approval_equipment_license::create($data);
     }
     public function updatePRPO()
     {
@@ -83,6 +101,7 @@ class Detail extends Component
         Equipment_license::where('doc_no', $this->documentNo)->update([
             'status' => 'wait_dep_hrd'
         ]);
+        $this->storeApprove();
         $eq = Equipment_license::where('doc_no', $this->documentNo)->first();
         $detail = detail_equipment::where('doc_no', $this->documentNo)->first();
         $person = User::where('id_section', $eq->id_section)->where('id_position', 'ADMIN')->first();
@@ -92,7 +111,7 @@ class Detail extends Component
         ];
         if ($this->reminderSchedule == 'yes') {
             $originalSchedule = Carbon::parse($detail->reminder_checking_date);
-            $newSchedule = $originalSchedule->copy()->setHour(22)->setMinute(57)->setSecond(0);
+            $newSchedule = $originalSchedule->copy()->setHour(10)->setMinute(25)->setSecond(0);
             reminderLicense::dispatch($person, $bodyEmail)->delay($newSchedule);
         }
 
@@ -132,6 +151,9 @@ class Detail extends Component
     }
     public function render()
     {
-        return view('livewire.equipment.detail');
+        $list_approval = approval_equipment_license::where('doc_no', $this->documentNo)->get();
+        return view('livewire.equipment.detail', [
+            'list_approval' => $list_approval
+        ]);
     }
 }

@@ -9,6 +9,7 @@ use \App\Models\company;
 use \App\Models\equipment;
 use \App\Models\Regulasi_equipment;
 use \App\Models\detail_equipment;
+use \App\Models\approval_equipment_license;
 use App\Models\User;
 use Livewire\WithFileUploads;
 use Livewire\Attributes\Rule;
@@ -86,6 +87,17 @@ class Create extends Component
         ]);
         $this->dispatch('refresh');
     }
+    public function storeApprove()
+    {
+        $data = [
+            'doc_no' => $this->documentNo,
+            'fullname' => session('fullname'),
+            'id_section' => $this->id_section,
+            'note' => 'Created Document.',
+            'approved_at' => date('Y-m-d H:i:s'),
+        ];
+        return approval_equipment_license::create($data);
+    }
     public function add()
     {
         $id_section = session('id_section');
@@ -109,9 +121,6 @@ class Create extends Component
                 'document_requirements' => $path,
                 'id_section' => $id_section,
             ]);
-            detail_equipment::create([
-                'doc_no' => $this->documentNo
-            ]);
         } else {
             Equipment_license::create([
                 'doc_no' => $this->documentNo,
@@ -124,11 +133,11 @@ class Create extends Component
                 'last_inspection' => $this->lastInspection,
                 'id_section' => $id_section,
             ]);
-            detail_equipment::create([
-                'doc_no' => $this->documentNo,
-                'status' => 'open'
-            ]);
         }
+        $this->storeApprove();
+        detail_equipment::create([
+            'doc_no' => $this->documentNo
+        ]);
         Mail::to($person->email)->send(new notificationEmail($person, $bodyEmail));
         $this->reset();
         $this->dispatch('closeModal');

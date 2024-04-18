@@ -22,4 +22,8 @@ class detail_equipment extends Model
         'frequency_testing',
         're_license_testing',
     ];
+    public function equipment()
+    {
+        return $this->belongsTo(Equipment_license::class, 'doc_no', 'doc_no');
+    }
 }

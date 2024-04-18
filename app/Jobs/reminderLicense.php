@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\notificationEmail;
 use App\Models\detail_equipment;
-use App\Models\equipment;
+use App\Models\Equipment_license;
 
 class reminderLicense implements ShouldQueue
 {
@@ -30,7 +30,7 @@ class reminderLicense implements ShouldQueue
      */
     public function handle(): void
     {
-        equipment::where('doc_no', $this->body['doc_no'])->update([
+        Equipment_license::where('doc_no', $this->body['doc_no'])->update([
             'status' => 'need_re_license'
         ]);
         detail_equipment::where('doc_no', $this->body['doc_no'])->update([

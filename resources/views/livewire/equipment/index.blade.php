@@ -58,8 +58,6 @@
                             <tbody>
                                 @forelse ($data as $value)
                                     <tr>
-                                        {{-- <td><button wire:click="detailRow" class="btn btn-xs btn-success">+</button>
-                                        </td> --}}
                                         <td>{{ $value->doc_no }}</td>
                                         <td>{{ date('d-m-Y', strtotime($value->filing_date)) }}</td>
                                         <td>{{ $value->company }}</td>
@@ -129,22 +127,22 @@
                                                 data-target="#modalDetail">
                                                 <i class="mdi mdi-eye" style="height: 15px;width:15px"></i>
                                             </button>
-                                            {{-- @if ($value->status == 'draft' && $value->id_section == session('id_section')) --}}
-                                            <button type="button"
-                                                @click="$dispatch('edit-mode',{id:{{ $value->id }}})"
-                                                class="btn btn-warning btn-xs" data-toggle="modal"
-                                                data-target="#modalUpdate">
-                                                <i class="mdi mdi-lead-pencil" style="height: 15px;width:15px"></i>
-                                            </button>
-                                            {{-- @endif --}}
-                                            {{-- @if (session('username') == 'superuser') --}}
-                                            <button type="button"
-                                                @click="$dispatch('delete-mode',{id:{{ $value->id }}})"
-                                                data-toggle="modal" data-target="#modalDelete"
-                                                class="btn btn-danger btn-xs">
-                                                <i class="mdi mdi-delete-sweep" style="height: 15px;width:15px"></i>
-                                            </button>
-                                            {{-- @endif --}}
+                                            @if ($value->status == 'draft' && $value->id_section == session('id_section'))
+                                                <button type="button"
+                                                    @click="$dispatch('edit-mode',{id:{{ $value->id }}})"
+                                                    class="btn btn-warning btn-xs" data-toggle="modal"
+                                                    data-target="#modalUpdate">
+                                                    <i class="mdi mdi-lead-pencil" style="height: 15px;width:15px"></i>
+                                                </button>
+                                            @endif
+                                            @if (session('username') == 'superuser')
+                                                <button type="button"
+                                                    @click="$dispatch('delete-mode',{id:{{ $value->id }}})"
+                                                    data-toggle="modal" data-target="#modalDelete"
+                                                    class="btn btn-danger btn-xs">
+                                                    <i class="mdi mdi-delete-sweep" style="height: 15px;width:15px"></i>
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                     @empty

@@ -65,7 +65,7 @@
                                         <td>{{ $value->regulation_no }}</td>
                                         <td>{{ $value->regulation_desc }}</td>
                                         <td>{{ $value->category }}</td>
-                                        <td>{{ date('d-m-Y', strtotime($value->check_frequency)) }}</td>
+                                        <td>{{ $value->check_frequency }}</td>
                                         <td><?php
                                         if ($value->document_k3){ ?>
                                             <button class="btn btn-primary btn-xs"

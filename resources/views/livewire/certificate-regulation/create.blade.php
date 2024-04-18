@@ -50,8 +50,16 @@
                         </div>
                         <div class="form-group">
                             <label for="check_frequency">Check Frequency</label>
-                            <input type="date" wire:model="check_frequency" name="check_frequency"
-                                class="form-control" id="check_frequency" placeholder="Check Frequency">
+                            <select class="form-select" wire:model="check_frequency">
+                                <option value="sekali 6 bulan" selected>sekali 6 bulan</option>
+                                <option value="sekali 1 tahun">sekali 1 tahun</option>
+                                <option value="sekali 2 tahun">sekali 2 tahun</option>
+                                <option value="sekali 3 tahun">sekali 3 tahun</option>
+                                <option value="sekali 4 tahun">sekali 4 tahun</option>
+                                <option value="sekali 5 tahun">sekali 5 tahun</option>
+                            </select>
+                            {{-- <input type="text" wire:model="check_frequency" name="check_frequency"
+                                class="form-control" id="check_frequency" placeholder="Check Frequency"> --}}
                             @error('check_frequency')
                                 <small class="text-danger d-block mt-1">{{ $message }}</small>
                             @enderror

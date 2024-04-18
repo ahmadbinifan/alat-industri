@@ -67,7 +67,8 @@
                                         <select class="form-select" id="createTagNumber" style="width: 100%"
                                             wire:model="tagnumber" name="tagNumber">
                                             @foreach ($tag_number as $value)
-                                                <option value="{{ $value->tag_number }}">{{ $value->tag_number }}
+                                                <option value="{{ $value->tag_number }}">
+                                                    {{ $value->tag_number . ' | ' . $value->description }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -110,7 +111,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Last Inpection</label>
-                                        <input type="date" wire:model="lastInspection" class="form-control">
+                                        <input type="text" wire:model="lastInspection" class="form-control">
                                         @error('lastInspection')
                                             <small class="text-danger d-block mt-1">{{ $message }}</small>
                                         @enderror

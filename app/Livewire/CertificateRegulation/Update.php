@@ -76,6 +76,10 @@ class Update extends Component
             ]);
         }
     }
+    public function close()
+    {
+        $this->reset();
+    }
     public function render()
     {
         return view('livewire.certificate-regulation.update');

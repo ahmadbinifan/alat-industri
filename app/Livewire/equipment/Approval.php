@@ -21,8 +21,16 @@ class Approval extends Component
     {
         $this->id = $id;
     }
-    public function storeApprove($data)
+    public function storeApprove($eq)
     {
+        $user = User::where('fullname', session('fullname'))->first();
+        $data = [
+            'doc_no' => $eq->doc_no,
+            'fullname' => session('fullname'),
+            'id_section' => $user->id_section,
+            'note' => $this->note,
+            'approved_at' => date('Y-m-d H:i:s'),
+        ];
         return approval_equipment_license::create($data);
     }
     public function findPerson($id_position, $id_section)
@@ -32,13 +40,7 @@ class Approval extends Component
     public function approved($id)
     {
         $eq = Equipment_license::where('id', $id)->first();
-        $data_approve = [
-            'doc_no' => $eq->doc_no,
-            'fullname' => session('fullname'),
-            'id_section' => $eq->id_section,
-            'note' => $this->note,
-            'approved_at' => date('Y-m-d H:i:s'),
-        ];
+
         $bodyEmail = [
             'doc_no' => $eq->doc_no,
             'subject' => 'Need Approval License Equipment'
@@ -51,7 +53,7 @@ class Approval extends Component
         try {
             switch ($eq->status) {
                 case 'wait_dep':
-                    $this->storeApprove($data_approve);
+                    $this->storeApprove($eq);
                     Equipment_license::where('id', $id)->update([
                         'status' => 'wait_adm_legal'
                     ]);
@@ -59,7 +61,7 @@ class Approval extends Component
                     Mail::to($findPerson->email)->send(new notificationEmail($findPerson, $bodyEmail2));
                     break;
                 case 'wait_adm_legal':
-                    $this->storeApprove($data_approve);
+                    $this->storeApprove($eq);
                     Equipment_license::where('id', $id)->update([
                         'status' => 'wait_dep_hrd',
                         'estimated_cost' => $this->estimatedCost
@@ -68,9 +70,9 @@ class Approval extends Component
                     Mail::to($findPerson->email)->send(new notificationEmail($findPerson, $bodyEmail));
                     break;
                 case 'wait_dep_hrd':
-                    $this->storeApprove($data_approve);
-                    $detail =  detail_equipment::where('status', 'close')->first();
-                    if ($detail) {
+                    $this->storeApprove($eq);
+                    $detail =  detail_equipment::where('doc_no', $eq->doc_no)->first();
+                    if ($detail->status == "close") {
                         Equipment_license::where('id', $id)->update([
                             'status' => 'license_running',
                         ]);
@@ -81,18 +83,17 @@ class Approval extends Component
                             Mail::to($user->email)->send(new notificationEmail($user, $bodyEmail2));
                         }
                         Mail::to($findPerson->email)->send(new notificationEmail($findPerson, $bodyEmail2));
-                    } else {
+                    }
+                    if (!$detail->status) {
                         Equipment_license::where('id', $id)->update([
                             'status' => 'wait_adm_hse',
                         ]);
                         $findPerson = $this->findPerson('ADMIN', 'HSE');
                         Mail::to($findPerson->email)->send(new notificationEmail($findPerson, $bodyEmail));
                     }
-
                     break;
                 case 'wait_adm_hse':
-                    $this->storeApprove($data_approve);
-
+                    $this->storeApprove($eq);
                     if ($this->attachFromHSE) {
                         $path = $this->attachFromHSE->store('public/files');
                         Equipment_license::where('id', $id)->update([
@@ -108,15 +109,15 @@ class Approval extends Component
                     Mail::to($findPerson->email)->send(new notificationEmail($findPerson, $bodyEmail));
                     break;
                 case 'wait_dep_hse':
-                    $this->storeApprove($data_approve);
+                    $this->storeApprove($eq);
                     Equipment_license::where('id', $id)->update([
                         'status' => 'wait_budgetcontrol',
                     ]);
-                    $findPerson = $this->findPerson('BUSINESS_CONTROL', '');
+                    $findPerson = $this->findPerson('BUSINESS_CONTROL', '-');
                     Mail::to($findPerson->email)->send(new notificationEmail($findPerson, $bodyEmail));
                     break;
                 case 'wait_budgetcontrol':
-                    $this->storeApprove($data_approve);
+                    $this->storeApprove($eq);
                     Equipment_license::where('id', $id)->update([
                         'status' => 'in_progress_prpo',
                     ]);
@@ -124,7 +125,7 @@ class Approval extends Component
                     Mail::to($findPerson->email)->send(new notificationEmail($findPerson, $bodyEmail));
                     break;
                 case 'in_progress_prpo':
-                    $this->storeApprove($data_approve);
+                    $this->storeApprove($eq);
                     Equipment_license::where('id', $id)->update([
                         'status' => 'wait_dep_hrd',
                     ]);

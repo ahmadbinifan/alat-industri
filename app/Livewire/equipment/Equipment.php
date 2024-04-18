@@ -16,7 +16,7 @@ class Equipment extends Component
     public $search = '';
     public $sortDirection = 'DESC';
     public $sortColumn = 'doc_no';
-
+    public $detailRow = false;
     public function doSort($column)
     {
         if ($this->sortColumn === $column) {
@@ -41,6 +41,7 @@ class Equipment extends Component
                 ->orWhere('status', 'wait_dep_hrd')
                 ->orWhere('status', 'in_progress_prpo')
                 ->orWhere('status', 'license_running')
+                ->orWhere('status', 'need_re_license')
                 ->search($this->search)
                 ->orderBy($this->sortColumn, $this->sortDirection)
                 ->paginate($this->perPage);

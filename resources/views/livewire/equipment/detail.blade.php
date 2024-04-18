@@ -43,13 +43,22 @@
                                         <input type="text" class="form-control" wire:model="tagnumber" readonly>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label>Description Asset</label>
+                                        <input type="text" wire:model="descriptionAsset" class="form-control"
+                                            readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Owner Asset</label>
                                         <input type="text" wire:model="ownerAsset" class="form-control" readonly>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Location Asset</label>
                                         <input type="text" wire:model="locationAsset" class="form-control" readonly>
@@ -66,7 +75,15 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Last Inpection</label>
-                                        <input type="date" wire:model="lastInspection" class="form-control" readonly>
+                                        <input type="text" wire:model="lastInspection" class="form-control" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Frequency Check</label>
+                                        <input type="text" class="form-control" wire:model="frequencyCheck" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -95,7 +112,7 @@
                                     </div>
                                 @endif
                             </div>
-                            @if ($status == 'in_progress_prpo' || $status == 'license_running' || $status == 'wait_dep_hrd')
+                            @if ($status == 'in_progress_prpo' || $status == 'license_running' || $status == 'need_re_license')
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -114,8 +131,8 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Issued Date Document</label>
-                                            <input type="date" wire:model='issuedDateDocument' class="form-control"
-                                                {{ $statusDetail == 'close' ? 'readonly' : '' }}>
+                                            <input type="date" wire:model='issuedDateDocument'
+                                                class="form-control" {{ $statusDetail == 'close' ? 'readonly' : '' }}>
                                         </div>
                                     </div>
                                 </div>
@@ -143,39 +160,35 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Frequency Check</label>
-                                            <input type="text" wire:model='frequencyCheck' class="form-control"
-                                                {{ $statusDetail == 'close' ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Repeat license</label>
                                             <input type="date" wire:model='reLicense' class="form-control"
                                                 {{ $statusDetail == 'close' ? 'readonly' : '' }}>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Frequency Testing</label>
-                                            <input type="text" wire:model='frequencyTesting' class="form-control"
-                                                {{ $statusDetail == 'close' ? 'readonly' : '' }}>
+                                            <select class="form-select" wire:model='frequencyTesting'
+                                                {{ $statusDetail == 'close' ? 'disabled' : '' }}>>
+                                                <option value="sekali 6 bulan">sekali 6 bulan</option>
+                                                <option value="sekali 1 tahun">sekali 1 tahun</option>
+                                                <option value="sekali 2 tahun">sekali 2 tahun</option>
+                                                <option value="sekali 3 tahun">sekali 3 tahun</option>
+                                                <option value="sekali 4 tahun">sekali 4 tahun</option>
+                                                <option value="sekali 5 tahun">sekali 5 tahun</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Repeat License Testing</label>
                                             <input type="date" wire:model='reLicenseTesting' class="form-control"
                                                 {{ $statusDetail == 'close' ? 'readonly' : '' }}>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Reminder Schedule</label>
                                             <select wire:model='reminderSchedule' wire:change='reminderScheduleUpdate'
@@ -188,62 +201,101 @@
                                     </div>
                                 </div>
                             @endif
-                        </div>
-                        <div class="modal-footer">
-                            @if ($status == 'wait_dep' && session('id_position') == 'SECTHEAD')
-                                <button type="button" wire:click="openApprove({{ $id }})"
-                                    class="btn btn-primary">Approve</button>
-                                <button type="button" wire:click="reject" wire:loading.attr="disabled"
-                                    class="btn btn-danger">Reject</button>
-                            @endif
-                            @if ($status == 'wait_adm_legal' && session('id_position') == 'ADMIN' && session('id_section') == 'LEG')
-                                <button type="button" wire:click="openApprove({{ $id }})"
-                                    class="btn btn-primary">Approve</button>
-                                <button type="button" wire:click="reject" wire:loading.attr="disabled"
-                                    class="btn btn-danger">Reject</button>
-                            @endif
-                            @if ($status == 'wait_dep_hrd' && session('id_position') == 'SECTHEAD' && session('id_section') == 'HRD')
-                                <button type="button" wire:click="openApprove({{ $id }})"
-                                    class="btn btn-primary">Approve</button>
-                                <button type="button" wire:click="reject" wire:loading.attr="disabled"
-                                    class="btn btn-danger">Reject</button>
-                            @endif
-                            @if ($status == 'wait_adm_hse' && session('id_position') == 'ADMIN' && session('id_section') == 'HSE')
-                                <button type="button" wire:click="openApprove({{ $id }})"
-                                    class="btn btn-primary">Approve</button>
-                                <button type="button" wire:click="reject" wire:loading.attr="disabled"
-                                    class="btn btn-danger">Reject</button>
-                            @endif
-                            @if ($status == 'wait_dep_hse' && session('id_position') == 'SECTHEAD' && session('id_section') == 'HSE')
-                                <button type="button" wire:click="openApprove({{ $id }})"
-                                    class="btn btn-primary">Approve</button>
-                                <button type="button" wire:click="reject" wire:loading.attr="disabled"
-                                    class="btn btn-danger">Reject</button>
-                            @endif
-                            @if ($status == 'wait_budgetcontrol' && session('id_position') == 'BUSINESS_CONTROL')
-                                <button type="button" wire:click="openApprove({{ $id }})"
-                                    class="btn btn-primary">Approve</button>
-                                <button type="button" wire:click="reject" wire:loading.attr="disabled"
-                                    class="btn btn-danger">Reject</button>
-                            @endif
-                            @if ($status == 'in_progress_prpo' && session('id_position') == 'ADMIN' && session('id_section') == 'LEG')
-                                <button type="button" wire:click="updatePRPO" class="btn btn-primary">Update
-                                    License</button>
-                                <button type="button" wire:click="reject" wire:loading.attr="disabled"
-                                    class="btn btn-danger">Reject</button>
-                            @endif
-                        </div>
                     </form>
+                    <div class="example">
+                        <h6>List Approval</h6>
+                        <div class="row">
+                            <div class="col-5 col-md-3">
+                                <div class="nav nav-tabs nav-tabs-vertical" id="v-tab" role="tablist"
+                                    aria-orientation="vertical">
+                                    @foreach ($list_approval as $approval)
+                                        <a class="nav-link {{ $loop->first ? 'active' : '' }}"
+                                            id="v-{{ $approval->id }}-tab" data-toggle="pill"
+                                            href="#v-{{ $approval->id }}" role="tab"
+                                            aria-controls="v-{{ $approval->id }}"
+                                            aria-selected="true">{{ $approval->fullname }}</a>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="col-7 col-md-9">
+                                <div class="tab-content tab-content-vertical border p-3" id="v-tabContent">
+                                    @foreach ($list_approval as $approval)
+                                        <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
+                                            id="v-{{ $approval->id }}" role="tabpanel"
+                                            aria-labelledby="v-{{ $approval->id }}-tab">
+                                            <h6 class="mb-1">Approved Date :
+                                                {{ date('d M Y', strtotime($approval->approved_at)) }}
+                                            </h6>
+                                            <p>{{ $approval->note }}</p>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="modal-footer">
+                    @if ($status == 'wait_dep' && session('id_position') == 'SECTHEAD')
+                        <button type="button" wire:click="openApprove({{ $id }})"
+                            class="btn btn-primary">Approve</button>
+                        <button type="button" wire:click="reject" wire:loading.attr="disabled"
+                            class="btn btn-danger">Reject</button>
+                    @endif
+                    @if ($status == 'wait_adm_legal' && session('id_position') == 'ADMIN' && session('id_section') == 'LEG')
+                        <button type="button" wire:click="openApprove({{ $id }})"
+                            class="btn btn-primary">Approve</button>
+                        <button type="button" wire:click="reject" wire:loading.attr="disabled"
+                            class="btn btn-danger">Reject</button>
+                    @endif
+                    @if ($status == 'wait_dep_hrd' && session('id_position') == 'SECTHEAD' && session('id_section') == 'HRD')
+                        <button type="button" wire:click="openApprove({{ $id }})"
+                            class="btn btn-primary">Approve</button>
+                        <button type="button" wire:click="reject" wire:loading.attr="disabled"
+                            class="btn btn-danger">Reject</button>
+                    @endif
+                    @if ($status == 'wait_adm_hse' && session('id_position') == 'ADMIN' && session('id_section') == 'HSE')
+                        <button type="button" wire:click="openApprove({{ $id }})"
+                            class="btn btn-primary">Approve</button>
+                        <button type="button" wire:click="reject" wire:loading.attr="disabled"
+                            class="btn btn-danger">Reject</button>
+                    @endif
+                    @if ($status == 'wait_dep_hse' && session('id_position') == 'SECTHEAD' && session('id_section') == 'HSE')
+                        <button type="button" wire:click="openApprove({{ $id }})"
+                            class="btn btn-primary">Approve</button>
+                        <button type="button" wire:click="reject" wire:loading.attr="disabled"
+                            class="btn btn-danger">Reject</button>
+                    @endif
+                    @if ($status == 'wait_budgetcontrol' && session('id_position') == 'BUSINESS_CONTROL')
+                        <button type="button" wire:click="openApprove({{ $id }})"
+                            class="btn btn-primary">Approve</button>
+                        <button type="button" wire:click="reject" wire:loading.attr="disabled"
+                            class="btn btn-danger">Reject</button>
+                    @endif
+                    @if ($status == 'in_progress_prpo' && session('id_position') == 'ADMIN' && session('id_section') == 'LEG')
+                        <button type="button" wire:click="updatePRPO" class="btn btn-primary">Update
+                            License</button>
+                        <button type="button" wire:click="reject" wire:loading.attr="disabled"
+                            class="btn btn-danger">Reject</button>
+                    @endif
+                    @if ($status == 'need_re_license' && session('id_position') == 'ADMIN' && session('id_section') == 'LEG')
+                        <button type="button" wire:click="updatePRPO" class="btn btn-primary">Update
+                            License</button>
+                        <button type="button" wire:click="reject" wire:loading.attr="disabled"
+                            class="btn btn-danger">Reject</button>
+                    @endif
+                </div>
+
             </div>
         </div>
-        @script
-            <script>
-                window.addEventListener('closeModal', event => {
-                    $('#modalDetail').modal('hide')
-                })
-            </script>
-        @endscript
-        <livewire:equipment.approval />
     </div>
+    @script
+        <script>
+            window.addEventListener('closeModal', event => {
+                $('#modalDetail').modal('hide')
+            })
+        </script>
+    @endscript
+    <livewire:equipment.approval />
+</div>
 </div>

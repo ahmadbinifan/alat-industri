@@ -7,6 +7,7 @@ use Livewire\WithFileUploads;
 use Livewire\Attributes\Rule;
 use App\Models\Equipment_license;
 use \App\Models\company;
+use \App\Models\approval_equipment_license;
 use \App\Models\equipment;
 use \App\Models\User;
 use \App\Models\Regulasi_equipment;
@@ -31,6 +32,8 @@ class Update extends Component
     public $lastInspection;
     #[Rule('file|mimes:pdf,doc,docx|max:2048')]
     public $documentRequirements;
+    #[Rule('file|mimes:pdf,doc,docx|max:2048')]
+    public $documentRequirementsU;
 
     public $ownerAsset;
     public $locationAsset;
@@ -70,6 +73,17 @@ class Update extends Component
             ]);
         }
     }
+    public function storeApprove()
+    {
+        $data = [
+            'doc_no' => $this->documentNo,
+            'fullname' => session('fullname'),
+            'id_section' => $this->id_section,
+            'note' => 'Created Document.',
+            'approved_at' => date('Y-m-d H:i:s'),
+        ];
+        return approval_equipment_license::create($data);
+    }
     public function update()
     {
         $person = User::where('id_section', session('id_section'))->where('id_position', 'SECTHEAD')->first();
@@ -78,8 +92,8 @@ class Update extends Component
             'subject' => 'Need Approval License Equipment'
         ];
         try {
-            if ($this->documentRequirements) {
-                $path = $this->documentRequirements->store('public/files');
+            if ($this->documentRequirementsU) {
+                $path = $this->documentRequirementsU->store('public/files');
                 Equipment_license::where('doc_no', $this->documentNo)->update([
                     'doc_no' => $this->documentNo,
                     'company' => $this->company,
@@ -105,6 +119,10 @@ class Update extends Component
                     'status' => 'wait_dep'
                 ]);
             }
+            detail_equipment::create([
+                'doc_no' => $this->documentNo
+            ]);
+            $this->storeApprove();
             Mail::to($person->email)->send(new notificationEmail($person, $bodyEmail));
             $this->dispatch('closeModal');
             $this->dispatch('swal', [
