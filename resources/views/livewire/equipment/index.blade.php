@@ -3,7 +3,7 @@
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Operation</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Equipment License</li>
+            <li class="breadcrumb-item active" aria-current="page">Request License Equipment </li>
         </ol>
     </nav>
 

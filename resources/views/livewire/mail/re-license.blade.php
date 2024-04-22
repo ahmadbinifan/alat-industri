@@ -10,11 +10,13 @@
 
 <body>
     <p>Dear Sdr.{{ $fullname }},<br>
-    Sertifikat dengan nomor dokumen :<b>{{ $doc_no }}</b> sebentar lagi akan expired tolong untuk memperbaharui license tersebut<br>
-    <i>Best Regards, <br>
-            <p>Automated Mail Service Notification <br>
-            <p>Bakrie Renewable Chemicals
-        </i></p>
+        Sertifikat dengan nomor dokumen :<b>{{ $doc_no }}</b> sebentar lagi akan expired tolong untuk
+        memperbaharui license tersebut<br>
+        <i>Best Regards, <br>
+            Automated Mail Service Notification <br>
+            Bakrie Renewable Chemicals
+        </i>
+    </p>
 
 </body>
 

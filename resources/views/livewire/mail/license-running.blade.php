@@ -10,10 +10,10 @@
 
 <body>
     <p>Dear Sdr.{{ $fullname }},<br>
-    <p>Selamat Sertifikat dengan nomor dokumen :<b>{{ $doc_no }}</b> telah berjalan dan di setujui.<br>
+        Selamat Sertifikat dengan nomor dokumen :<b>{{ $doc_no }}</b> telah berjalan dan di setujui.</p>
     <p><i>Best Regards, <br>
-            <p>Automated Mail Service Notification <br>
-            <p>Bakrie Renewable Chemicals
+            Automated Mail Service Notification <br>
+            Bakrie Renewable Chemicals
         </i></p>
 
 </body>

@@ -41,7 +41,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" wire:click="approved({{ $id }})" wire:loading.attr="disabled"
-                        class="btn btn-primary">Approved</button>
+                        class="btn btn-primary">Submit</button>
                 </div>
                 </form>
             </div>

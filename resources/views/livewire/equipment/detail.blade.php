@@ -86,6 +86,12 @@
                                         <input type="text" class="form-control" wire:model="frequencyCheck" readonly>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Estimated Cost</label>
+                                        <input type="text" class="form-control" wire:model="estimatedCost" readonly>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">

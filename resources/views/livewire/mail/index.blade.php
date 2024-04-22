@@ -10,14 +10,14 @@
 
 <body>
     <p>Dear Sdr.{{ $fullname }},<br>
-    <p>Berikut...<br>
-    <p>No. Document License Equipment :<b>{{ $doc_no }}</b> <br>
-    <p>Silahkan untuk melakukan konfirmasi melalui link berikut ini.<br>
-    <p>*Jika anda berada diluar jaringan lokal aktifkan VPN terlebih dahulu. <br>
-    <p>Klik Disini <br>
+        Berikut...<br>
+        No. Document License Equipment :<b>{{ $doc_no }}</b> <br>
+        Silahkan untuk melakukan konfirmasi melalui link berikut ini.<br>
+        *Jika anda berada diluar jaringan lokal aktifkan VPN terlebih dahulu.</p>
+    <p>Klik Disini</p>
     <p><i>Best Regards, <br>
-            <p>Automated Mail Service Notification <br>
-            <p>Bakrie Renewable Chemicals
+            Automated Mail Service Notification <br>
+            Bakrie Renewable Chemicals
         </i></p>
 
 </body>

@@ -19,7 +19,7 @@ class Detail extends Component
     public $id, $documentNo, $company, $fillingDate, $tagnumber, $descriptionAsset, $idRegulation, $lastInspection,
         $documentRequirements, $ownerAsset, $locationAsset, $id_section, $status, $attachFromHSE,
         $licenseNo, $licenseFrom, $issuedDateDocument, $lastLicenseDate, $reminderCheckingDate, $reminderTestingDate,
-        $frequencyCheck, $reLicense, $frequencyTesting, $reLicenseTesting, $reminderSchedule, $statusDetail;
+        $frequencyCheck, $estimatedCost, $reLicense, $frequencyTesting, $reLicenseTesting, $reminderSchedule, $statusDetail;
 
     #[\Livewire\Attributes\On('detail')]
     public function detail($id)
@@ -30,7 +30,6 @@ class Detail extends Component
             $detail = detail_equipment::where('doc_no', $eq->doc_no)->first();
             $reg = Regulasi_equipment::where('id', $eq->idRegulasi)->first();
             $master_equipment = masterEQ::where('tag_number', $eq->tag_number)->first();
-
             if (!$eq) {
                 $this->dispatch('swal', [
                     'title' => 'Error',
@@ -55,7 +54,8 @@ class Detail extends Component
                 $this->lastLicenseDate = $detail->last_license_date;
                 $this->reminderCheckingDate = $detail->reminder_checking_date;
                 $this->reminderTestingDate = $detail->reminder_testing_date;
-                $this->frequencyCheck = $detail->frequency_check;
+                $this->frequencyCheck = $reg->check_frequency;
+                $this->estimatedCost = "Rp." . number_format($eq->estimated_cost);
                 $this->reLicense = $detail->re_license;
                 $this->frequencyTesting = $detail->frequency_testing;
                 $this->reLicenseTesting = $detail->re_license_testing;
