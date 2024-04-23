@@ -12,6 +12,7 @@ use App\Models\Regulasi_equipment;
 use App\Models\equipment as masterEQ;
 use App\Models\User;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class Detail extends Component
 {
@@ -149,11 +150,34 @@ class Detail extends Component
     {
         $this->reset();
     }
+    public function exportpdf()
+    {
+        $eq = Equipment_license::findOrFail($this->id);
+        $masterEQ = masterEQ::where('tag_number', $eq->tag_number)->first();
+        $reg = Regulasi_equipment::where('id', $eq->idRegulasi)->first();
+        $detail = detail_equipment::where('doc_no', $eq->doc_no)->first();
+        $approval = approval_equipment_license::where('doc_no', $eq->doc_no)->get();
+        $logo = public_path('assets/images/brc.png');
+        $data = [
+            'head' => $eq,
+            'detail' => $detail,
+            'mastereq' => $masterEQ,
+            'logo' => $logo,
+            'reg' => $reg,
+            'approval' => $approval,
+        ];
+        $pdf = PDF::loadView('livewire.equipment.pdf', $data)->setPaper('A4', 'landscape');
+        return response()->streamDownload(function () use ($pdf) {
+            echo  $pdf->stream();
+        }, 'report.pdf');
+    }
     public function render()
     {
+        $id = $this->id;
         $list_approval = approval_equipment_license::where('doc_no', $this->documentNo)->get();
         return view('livewire.equipment.detail', [
-            'list_approval' => $list_approval
+            'list_approval' => $list_approval,
+            'param' => $id
         ]);
     }
 }

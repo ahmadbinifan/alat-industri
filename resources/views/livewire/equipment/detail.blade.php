@@ -290,6 +290,8 @@
                         <button type="button" wire:click="reject" wire:loading.attr="disabled"
                             class="btn btn-danger">Reject</button>
                     @endif
+                    <button type="button" wire:click="exportpdf({{ $id }})" wire:loading.attr="disabled"
+                        class="btn btn-info-muted">Print</button>
                 </div>
 
             </div>
