@@ -3,6 +3,13 @@
         <i data-feather="menu"></i>
     </a>
     <div class="navbar-content">
+        <form class="search-form">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                </div>
+                <h4> <span class="text center badge badge-danger">Sandbox Mode</span></h4>
+            </div>
+        </form>
         <ul class="navbar-nav">
             {{-- <li class="nav-item dropdown nav-apps">
                 <a class="nav-link dropdown-toggle" href="#" id="appsDropdown" role="button" data-toggle="dropdown"

@@ -82,7 +82,6 @@ class Approval extends Component
                             $user =  User::where('fullname', $value->fullname)->distinct('fullname')->first();
                             Mail::to($user->email)->send(new notificationEmail($user, $bodyEmail2));
                         }
-                        Mail::to($findPerson->email)->send(new notificationEmail($findPerson, $bodyEmail2));
                     }
                     if (!$detail->status) {
                         Equipment_license::where('id', $id)->update([
