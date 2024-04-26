@@ -4,6 +4,9 @@ namespace App\Livewire\equipment;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ExportEquipmentLicense;
+use App\Models\Equipment_license;
 
 class Equipment extends Component
 {
@@ -33,6 +36,10 @@ class Equipment extends Component
     public function updatedSearch()
     {
         $this->resetPage();
+    }
+    public function exportExcel()
+    {
+        return Excel::download(new ExportEquipmentLicense, 'equipment_license.xlsx');
     }
     public function render()
     {

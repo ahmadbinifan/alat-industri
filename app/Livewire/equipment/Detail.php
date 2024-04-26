@@ -73,6 +73,7 @@ class Detail extends Component
             ]);
         }
     }
+
     public function storeApprove()
     {
         $data = [
