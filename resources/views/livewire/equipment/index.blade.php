@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-3">
-                        <h6 class="card-title">List existing License</h6>
+                        <h6 class="card-title">List</h6>
                         <button type="button" class="btn btn-primary btn-icon-text" data-toggle="modal"
                             data-backdrop="static" data-target="#modalCreate">
                             <i class="btn-icon-prepend mdi mdi-plus-circle-multiple-outline"></i>

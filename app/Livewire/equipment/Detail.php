@@ -166,10 +166,11 @@ class Detail extends Component
             'reg' => $reg,
             'approval' => $approval,
         ];
+        $filename = "equipment License - $eq->id.pdf";
         $pdf = PDF::loadView('livewire.equipment.pdf', $data)->setPaper('A4', 'landscape');
         return response()->streamDownload(function () use ($pdf) {
             echo  $pdf->stream();
-        }, 'report.pdf');
+        }, $filename);
     }
     public function render()
     {
