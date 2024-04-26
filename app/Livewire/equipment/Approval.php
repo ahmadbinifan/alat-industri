@@ -113,7 +113,7 @@ class Approval extends Component
                     Equipment_license::where('id', $id)->update([
                         'status' => 'wait_budgetcontrol',
                     ]);
-                    $findPerson = $this->findPerson('BUSINESS_CONTROL', '-');
+                    $findPerson = $this->findPerson('BUSINESS_CONTROL', 'BC');
                     Mail::to($findPerson->email)->send(new notificationEmail($findPerson, $bodyEmail));
                     break;
                 case 'wait_budgetcontrol':
