@@ -32,8 +32,10 @@ class Login extends Component
                 'group_section' => $user->group_section,
                 'id_position' => $user->id_position,
             ]);
+            Session::flash('success', 'Login Successfull');
             redirect(route('home'));
         } else {
+            Session::flash('fail', 'Wrong Username/Password');
             redirect(route('login'));
         }
     }
