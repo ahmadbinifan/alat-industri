@@ -11,12 +11,8 @@
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
+                    <div class="d-flex justify-content-between mb-2">
                         <h6 class="card-title">List</h6>
-                        <button type="button" class="btn btn-success btn-icon-text" wire:click='exportExcel'>
-                            <i class="btn-icon-prepend mdi mdi-file-excel"></i>
-                            Export to Excel
-                        </button>
                         @if (session('id_position') == 'ADMIN')
                             <button type="button" class="btn btn-primary btn-icon-text" data-toggle="modal"
                                 data-backdrop="static" data-target="#modalCreate">
@@ -25,6 +21,13 @@
                             </button>
                         @endif
                     </div>
+                    <div class="float-right">
+                        <button type="button" class="btn btn-success btn-icon-text" wire:click='exportExcel'>
+                            <i class="btn-icon-prepend mdi mdi-file-excel"></i>
+                            Export to Excel
+                        </button>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-2">
                             <label>Per Page</label>
