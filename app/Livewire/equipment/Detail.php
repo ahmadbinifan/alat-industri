@@ -73,7 +73,76 @@ class Detail extends Component
             ]);
         }
     }
-
+    public function refre($field)
+    {
+        switch ($field) {
+            case 'Kurang dari 1 Bulan':
+                $startIssued = Carbon::parse($this->lastLicenseDate);
+                $newReminder = $startIssued->subMonths(1);
+                return $this->reminderCheckingDate =  $newReminder->format('d/m/Y');
+                break;
+            case 'Kurang dari 2 Bulan':
+                $startIssued = Carbon::parse($this->lastLicenseDate);
+                $newReminder = $startIssued->subMonths(2);
+                return $this->reminderCheckingDate =  $newReminder->format('d/m/Y');
+                break;
+            case 'Kurang dari 3 Bulan':
+                $startIssued = Carbon::parse($this->lastLicenseDate);
+                $newReminder = $startIssued->subMonths(3);
+                return $this->reminderCheckingDate =  $newReminder->format('d/m/Y');
+                break;
+            case 'Kurang dari 4 Bulan':
+                $startIssued = Carbon::parse($this->lastLicenseDate);
+                $newReminder = $startIssued->subMonths(4);
+                return $this->reminderCheckingDate =  $newReminder->format('d/m/Y');
+                break;
+            case 'Kurang dari 5 Bulan':
+                $startIssued = Carbon::parse($this->lastLicenseDate);
+                $newReminder = $startIssued->subMonths(5);
+                return $this->reminderCheckingDate =  $newReminder->format('d/m/Y');
+                break;
+            case 'Kurang dari 6 Bulan':
+                $startIssued = Carbon::parse($this->lastLicenseDate);
+                $newReminder = $startIssued->subMonths(6);
+                return $this->reminderCheckingDate =  $newReminder->format('d/m/Y');
+                break;
+        }
+    }
+    public function issuedDate($field)
+    {
+        switch ($this->frequencyCheck) {
+            case 'sekali 6 bulan':
+                $startIssued = Carbon::parse($field);
+                $newExpired = $startIssued->addMonths(6);
+                return $this->lastLicenseDate =  $newExpired->format('d/m/Y');
+                break;
+            case 'sekali 1 tahun':
+                $startIssued = Carbon::parse($field);
+                $newExpired = $startIssued->addYears(1);
+                return $this->lastLicenseDate =  $newExpired->format('d/m/Y');
+                break;
+            case 'sekali 2 tahun':
+                $startIssued = Carbon::parse($field);
+                $newExpired = $startIssued->addYears(2);
+                return $this->lastLicenseDate =  $newExpired->format('d/m/Y');
+                break;
+            case 'sekali 3 tahun':
+                $startIssued = Carbon::parse($field);
+                $newExpired = $startIssued->addYears(3);
+                return $this->lastLicenseDate =  $newExpired->format('d/m/Y');
+                break;
+            case 'sekali 4 tahun':
+                $startIssued = Carbon::parse($field);
+                $newExpired = $startIssued->addYears(4);
+                return $this->lastLicenseDate =  $newExpired->format('d/m/Y');
+                break;
+            case 'sekali 5 tahun':
+                $startIssued = Carbon::parse($field);
+                $newExpired = $startIssued->addYears(5);
+                return $this->lastLicenseDate =  $newExpired->format('d/m/Y');
+                break;
+        }
+    }
     public function storeApprove()
     {
         $data = [

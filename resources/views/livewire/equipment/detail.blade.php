@@ -138,42 +138,45 @@
                                         <div class="form-group">
                                             <label>Issued Date Document</label>
                                             <input type="date" wire:model='issuedDateDocument'
-                                                class="form-control" {{ $statusDetail == 'close' ? 'readonly' : '' }}>
+                                                wire:change='issuedDate($event.target.value)' class="form-control"
+                                                {{ $statusDetail == 'close' ? 'readonly' : '' }}>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Last License Date</label>
-                                            <input type="date" wire:model='lastLicenseDate' class="form-control"
-                                                {{ $statusDetail == 'close' ? 'readonly' : '' }}>
+                                            <label>Expired License Date</label>
+                                            <input type="text" wire:model='lastLicenseDate' class="form-control"
+                                                {{ $statusDetail == 'close' ? 'readonly' : '' }} readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Reminder Frequency</label>
+                                            <select wire:model="reminder_frequesncy"
+                                                wire:change="refre($event.target.value)" class="form-select">
+                                                <option value="">Choose Reminder Frequency</option>
+                                                <option value="Kurang dari 1 Bulan">Kurang dari 1 Bulan</option>
+                                                <option value="Kurang dari 2 Bulan">Kurang dari 2 Bulan</option>
+                                                <option value="Kurang dari 3 Bulan">Kurang dari 3 Bulan</option>
+                                                <option value="Kurang dari 4 Bulan">Kurang dari 4 Bulan</option>
+                                                <option value="Kurang dari 5 Bulan">Kurang dari 5 Bulan</option>
+                                                <option value="Kurang dari 6 Bulan">Kurang dari 6 Bulan</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Reminder Checking Date</label>
-                                            <input type="date" wire:model='reminderCheckingDate'
-                                                class="form-control" {{ $statusDetail == 'close' ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label>Reminder Testing Date</label>
-                                            <input type="date" wire:model='reminderTestingDate'
-                                                class="form-control" {{ $statusDetail == 'close' ? 'readonly' : '' }}>
+                                            <input type="text" wire:model='reminderCheckingDate'
+                                                class="form-control" {{ $statusDetail == 'close' ? 'readonly' : '' }}
+                                                readonly>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Repeat license</label>
-                                            <input type="date" wire:model='reLicense' class="form-control"
-                                                {{ $statusDetail == 'close' ? 'readonly' : '' }}>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Frequency Testing</label>
                                             <select class="form-select" wire:model='frequencyTesting'
@@ -187,14 +190,14 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Repeat License Testing</label>
-                                            <input type="date" wire:model='reLicenseTesting' class="form-control"
-                                                {{ $statusDetail == 'close' ? 'readonly' : '' }}>
+                                            <label>Reminder Testing Date</label>
+                                            <input type="date" wire:model='reminderTestingDate'
+                                                class="form-control" {{ $statusDetail == 'close' ? 'readonly' : '' }}>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Reminder Schedule</label>
                                             <select wire:model='reminderSchedule' wire:change='reminderScheduleUpdate'
