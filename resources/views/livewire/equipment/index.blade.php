@@ -125,11 +125,17 @@
                                                                                                                                 class="badge badge-warning">DRAFT<span>
                                                                                                                                 @break
 
-                                                                                                                                @default
+                                                                                                                                @case('request_renewal')
                                                                                                                                     <span
-                                                                                                                                        class="badge badge-danger">NO
-                                                                                                                                        STATUS<span>
-                                                                                                                                    @endswitch
+                                                                                                                                        class="badge badge-warning">REQUEST
+                                                                                                                                        RENEWAL<span>
+                                                                                                                                        @break
+
+                                                                                                                                        @default
+                                                                                                                                            <span
+                                                                                                                                                class="badge badge-danger">NO
+                                                                                                                                                STATUS<span>
+                                                                                                                                            @endswitch
                                         </td>
                                         <td><button type="button" @click="$dispatch('detail',{id:{{ $value->id }}})"
                                                 class="btn btn-success btn-xs" data-toggle="modal"

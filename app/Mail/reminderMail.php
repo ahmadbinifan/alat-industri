@@ -9,8 +9,9 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Equipment_license;
 
-class notificationEmail extends Mailable
+class reminderMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $person;
@@ -49,13 +50,13 @@ class notificationEmail extends Mailable
         } else {
             $view = 'livewire.mail.index';
         }
-
+        $data = Equipment_license::where('status', 'need_re_license')->get();
         return new Content(
             view: $view,
             with: [
                 'fullname' => $this->person->fullname,
-                'doc_no' => $this->body['doc_no'],
                 'subject' => $this->body['subject'],
+                'data' => $data
             ],
         );
     }

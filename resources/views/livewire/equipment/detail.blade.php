@@ -147,15 +147,16 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Expired License Date</label>
-                                            <input type="text" wire:model='lastLicenseDate' class="form-control"
+                                            <input type="date" wire:model='lastLicenseDate' class="form-control"
                                                 {{ $statusDetail == 'close' ? 'readonly' : '' }} readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Reminder Frequency</label>
-                                            <select wire:model="reminder_frequesncy"
-                                                wire:change="refre($event.target.value)" class="form-select">
+                                            <label>Checking Date Frequency</label>
+                                            <select wire:model="reminder_frequency"
+                                                wire:change="refre($event.target.value)" class="form-select"
+                                                {{ $statusDetail == 'close' ? 'readonly' : '' }} disabled>
                                                 <option value="">Choose Reminder Frequency</option>
                                                 <option value="Kurang dari 1 Bulan">Kurang dari 1 Bulan</option>
                                                 <option value="Kurang dari 2 Bulan">Kurang dari 2 Bulan</option>
@@ -169,7 +170,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Reminder Checking Date</label>
-                                            <input type="text" wire:model='reminderCheckingDate'
+                                            <input type="date" wire:model='reminderCheckingDate'
                                                 class="form-control" {{ $statusDetail == 'close' ? 'readonly' : '' }}
                                                 readonly>
                                         </div>
@@ -282,16 +283,16 @@
                             class="btn btn-danger">Reject</button>
                     @endif
                     @if ($status == 'in_progress_prpo' && session('id_position') == 'ADMIN' && session('id_section') == 'LEG')
-                        <button type="button" wire:click="updatePRPO" class="btn btn-primary">Update
+                        <button type="button" wire:click="updatePRPO" wire:loading.attr="disabled class="btn
+                            btn-primary">Update
                             License</button>
                         <button type="button" wire:click="reject" wire:loading.attr="disabled"
                             class="btn btn-danger">Reject</button>
                     @endif
-                    @if ($status == 'need_re_license' && session('id_position') == 'ADMIN' && session('id_section') == 'LEG')
-                        <button type="button" wire:click="updatePRPO" class="btn btn-primary">Update
-                            License</button>
-                        <button type="button" wire:click="reject" wire:loading.attr="disabled"
-                            class="btn btn-danger">Reject</button>
+                    @if ($status == 'need_re_license' && session('id_position') == 'ADMIN' && $id_section == session('id_section'))
+                        <button type="button" wire:click="reqRenewal" wire:loading.attr="disabled class="btn
+                            btn-primary">Renewal License
+                            License </button>
                     @endif
                     <button type="button" wire:click="exportpdf({{ $id }})" wire:loading.attr="disabled"
                         class="btn btn-info-muted">Print</button>

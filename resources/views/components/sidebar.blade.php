@@ -25,6 +25,12 @@
                     <span class="link-title">Request License Equipment</span>
                 </a>
             </li>
+            <li class="nav-item {{ request()->routeIs('oldEquipment') ? 'active' : '' }}">
+                <a href="{{ url('/oldEquipment') }}" class="nav-link">
+                    <i class="link-icon" data-feather="box"></i>
+                    <span class="link-title">Old Equipment</span>
+                </a>
+            </li>
             <li class="nav-item {{ request()->routeIs('certificateRegulation') ? 'active' : '' }}">
                 <a href="{{ url('/certificateRegulation') }}" class="nav-link">
                     <i class="link-icon" data-feather="box"></i>

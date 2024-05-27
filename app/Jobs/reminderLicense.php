@@ -33,9 +33,6 @@ class reminderLicense implements ShouldQueue
         Equipment_license::where('doc_no', $this->body['doc_no'])->update([
             'status' => 'need_re_license'
         ]);
-        detail_equipment::where('doc_no', $this->body['doc_no'])->update([
-            'status' => 'open',
-        ]);
         Mail::to($this->person->email)->send(new notificationEmail($this->person, $this->body));
     }
 }

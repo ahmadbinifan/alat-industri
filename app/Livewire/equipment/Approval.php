@@ -70,6 +70,7 @@ class Approval extends Component
                     Mail::to($findPerson->email)->send(new notificationEmail($findPerson, $bodyEmail));
                     break;
                 case 'wait_dep_hrd':
+
                     $this->storeApprove($eq);
                     $detail =  detail_equipment::where('doc_no', $eq->doc_no)->first();
                     if ($detail->status == "close") {
@@ -77,7 +78,7 @@ class Approval extends Component
                             'status' => 'license_running',
                         ]);
                         $findPerson = $this->findPerson('ADMIN', $eq->id_section);
-                        $allApproval = approval_equipment_license::where('doc_no', $eq->doc_no)->get();
+                        $allApproval = approval_equipment_license::where('doc_no', $eq->doc_no)->distinct()->get('fullname');
                         foreach ($allApproval as  $value) {
                             $user =  User::where('fullname', $value->fullname)->distinct('fullname')->first();
                             Mail::to($user->email)->send(new notificationEmail($user, $bodyEmail2));
