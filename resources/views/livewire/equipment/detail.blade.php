@@ -124,14 +124,14 @@
                                         <div class="form-group">
                                             <label>License No</label>
                                             <input type="text" wire:model='licenseNo' class="form-control"
-                                                {{ $statusDetail == 'close' ? 'readonly' : '' }}>
+                                                {{ $statusDetail == 'open' ? '' : 'readonly' }}>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>License From</label>
                                             <input type="text" wire:model='licenseFrom' class="form-control"
-                                                {{ $statusDetail == 'close' ? 'readonly' : '' }}>
+                                                {{ $statusDetail == 'open' ? '' : 'readonly' }}>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -139,7 +139,7 @@
                                             <label>Issued Date Document</label>
                                             <input type="date" wire:model='issuedDateDocument'
                                                 wire:change='issuedDate($event.target.value)' class="form-control"
-                                                {{ $statusDetail == 'close' ? 'readonly' : '' }}>
+                                                {{ $statusDetail == 'open' ? '' : 'readonly' }}>
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@
                                         <div class="form-group">
                                             <label>Expired License Date</label>
                                             <input type="date" wire:model='lastLicenseDate' class="form-control"
-                                                {{ $statusDetail == 'close' ? 'readonly' : '' }} readonly>
+                                                readonly>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -156,7 +156,7 @@
                                             <label>Checking Date Frequency</label>
                                             <select wire:model="reminder_frequency"
                                                 wire:change="refre($event.target.value)" class="form-select"
-                                                {{ $statusDetail == 'close' ? 'readonly' : '' }} disabled>
+                                                {{ $statusDetail == 'open' ? '' : 'disabled' }}>
                                                 <option value="">Choose Reminder Frequency</option>
                                                 <option value="Kurang dari 1 Bulan">Kurang dari 1 Bulan</option>
                                                 <option value="Kurang dari 2 Bulan">Kurang dari 2 Bulan</option>
@@ -171,8 +171,7 @@
                                         <div class="form-group">
                                             <label>Reminder Checking Date</label>
                                             <input type="date" wire:model='reminderCheckingDate'
-                                                class="form-control" {{ $statusDetail == 'close' ? 'readonly' : '' }}
-                                                readonly>
+                                                class="form-control" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -181,7 +180,7 @@
                                         <div class="form-group">
                                             <label>Frequency Testing</label>
                                             <select class="form-select" wire:model='frequencyTesting'
-                                                {{ $statusDetail == 'close' ? 'disabled' : '' }}>>
+                                                {{ $statusDetail == 'open' ? '' : 'disabled' }}>>
                                                 <option value="sekali 6 bulan">sekali 6 bulan</option>
                                                 <option value="sekali 1 tahun">sekali 1 tahun</option>
                                                 <option value="sekali 2 tahun">sekali 2 tahun</option>
@@ -195,14 +194,14 @@
                                         <div class="form-group">
                                             <label>Reminder Testing Date</label>
                                             <input type="date" wire:model='reminderTestingDate'
-                                                class="form-control" {{ $statusDetail == 'close' ? 'readonly' : '' }}>
+                                                class="form-control" {{ $statusDetail == 'open' ? '' : 'readonly' }}>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Reminder Schedule</label>
                                             <select wire:model='reminderSchedule' wire:change='reminderScheduleUpdate'
-                                                class="form-control" {{ $statusDetail == 'close' ? 'disabled' : '' }}>
+                                                class="form-control" {{ $statusDetail == 'open' ? '' : 'disabled' }}>
                                                 <option value="-">-</option>
                                                 <option value="yes">Yes</option>
                                                 <option value="no">No</option>
@@ -283,15 +282,14 @@
                             class="btn btn-danger">Reject</button>
                     @endif
                     @if ($status == 'in_progress_prpo' && session('id_position') == 'ADMIN' && session('id_section') == 'LEG')
-                        <button type="button" wire:click="updatePRPO" wire:loading.attr="disabled class="btn
-                            btn-primary">Update
-                            License</button>
+                        <button type="button" wire:click="updatePRPO" wire:loading.attr="disabled"
+                            class="btn btn-primary">Update License</button>
                         <button type="button" wire:click="reject" wire:loading.attr="disabled"
                             class="btn btn-danger">Reject</button>
                     @endif
                     @if ($status == 'need_re_license' && session('id_position') == 'ADMIN' && $id_section == session('id_section'))
-                        <button type="button" wire:click="reqRenewal" wire:loading.attr="disabled class="btn
-                            btn-primary">Renewal License
+                        <button type="button" wire:click="reqRenewal" wire:loading.attr="disabled"
+                            class="btn btn-primary">Renewal License
                             License </button>
                     @endif
                     <button type="button" wire:click="exportpdf({{ $id }})" wire:loading.attr="disabled"

@@ -66,69 +66,20 @@
                                         <td>{{ $value->tag_number }}</td>
                                         <td>
                                             @switch($value->status)
-                                                @case('wait_dep')
-                                                    <span class="badge badge-primary">WAIT DEP<span>
+                                                @case('request_renewal')
+                                                    <span class="badge badge-warning">REQUEST
+                                                        RENEWAL<span>
                                                         @break
 
-                                                        @case('wait_adm_legal')
-                                                            <span class="badge badge-primary">WAIT ADMIN LEGAL<span>
+                                                        @case('closed')
+                                                            <span class="badge badge-secondary">CLOSED
+                                                                <span>
                                                                 @break
 
-                                                                @case('wait_dep_hrd')
-                                                                    <span class="badge badge-primary">WAIT DEP HRD<span>
-                                                                        @break
-
-                                                                        @case('wait_adm_hse')
-                                                                            <span class="badge badge-primary">WAIT ADMIN
-                                                                                HSE<span>
-                                                                                @break
-
-                                                                                @case('wait_dep_hse')
-                                                                                    <span class="badge badge-primary">WAIT DEP
-                                                                                        HSE<span>
-                                                                                        @break
-
-                                                                                        @case('wait_budgetcontrol')
-                                                                                            <span
-                                                                                                class="badge badge-primary">WAIT
-                                                                                                BUDGET CONTROL<span>
-                                                                                                @break
-
-                                                                                                @case('in_progress_prpo')
-                                                                                                    <span
-                                                                                                        class="badge badge-primary">IN
-                                                                                                        PROGRESS PR-PO<span>
-                                                                                                        @break
-
-                                                                                                        @case('license_running')
-                                                                                                            <span
-                                                                                                                class="badge badge-success">LICENSE
-                                                                                                                RUNNING<span>
-                                                                                                                @break
-
-                                                                                                                @case('need_re_license')
-                                                                                                                    <span
-                                                                                                                        class="badge badge-danger">NEED
-                                                                                                                        RE
-                                                                                                                        LICENSE<span>
-                                                                                                                        @break
-
-                                                                                                                        @case('draft')
-                                                                                                                            <span
-                                                                                                                                class="badge badge-warning">DRAFT<span>
-                                                                                                                                @break
-
-                                                                                                                                @case('request_renewal')
-                                                                                                                                    <span
-                                                                                                                                        class="badge badge-warning">REQUEST
-                                                                                                                                        RENEWAL<span>
-                                                                                                                                        @break
-
-                                                                                                                                        @default
-                                                                                                                                            <span
-                                                                                                                                                class="badge badge-danger">NO
-                                                                                                                                                STATUS<span>
-                                                                                                                                            @endswitch
+                                                                @default
+                                                                    <span class="badge badge-danger">NO
+                                                                        STATUS<span>
+                                                                    @endswitch
                                         </td>
                                         <td><button type="button" @click="$dispatch('detail',{id:{{ $value->id }}})"
                                                 class="btn btn-success btn-xs" data-toggle="modal"

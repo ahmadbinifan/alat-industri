@@ -77,6 +77,9 @@ class Approval extends Component
                         Equipment_license::where('id', $id)->update([
                             'status' => 'license_running',
                         ]);
+                        Equipment_license::where('doc_no', $eq->old_doc_no)->update([
+                            'status' => 'closed',
+                        ]);
                         $findPerson = $this->findPerson('ADMIN', $eq->id_section);
                         $allApproval = approval_equipment_license::where('doc_no', $eq->doc_no)->distinct()->get('fullname');
                         foreach ($allApproval as  $value) {

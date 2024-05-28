@@ -21,6 +21,7 @@ class detail_equipment extends Model
         're_license',
         'frequency_testing',
         're_license_testing',
+        'status',
     ];
     public function equipment()
     {

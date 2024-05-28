@@ -208,6 +208,10 @@ class Detail extends Component
         ]);
         return redirect()->route('equipment');
     }
+    public function findPerson($id_position, $id_section)
+    {
+        return User::where('id_position', $id_position)->where('id_section', $id_section)->first();
+    }
     public function reqRenewal()
     {
         $eq = Equipment_license::where('doc_no', $this->documentNo)->first();
@@ -224,8 +228,14 @@ class Detail extends Component
             'idRegulasi' => $reg->id,
             'last_inspection' => $this->lastInspection,
             'status' => "WAIT_DEP",
+            'old_doc' => "0",
+            'old_doc_no' => $this->documentNo,
             'id_section' => $this->id_section,
             'created_at' => date('Y-m-d H:i:s'),
+        ];
+        $data_detail = [
+            'doc_no' => $doc_no,
+            'status' => 'open'
         ];
         $data_approve = [
             'doc_no' => $doc_no,
@@ -246,11 +256,10 @@ class Detail extends Component
                 'old_doc' => 1
             ]);
             $person = User::where('id_section', session('id_section'))->where('id_position', 'SECTHEAD')->first();
-            detail_equipment::create([
-                'doc_no' => $doc_no,
-                'status' => 'open'
-            ]);
+
+
             Equipment_license::create($data);
+            detail_equipment::create($data_detail);
             approval_equipment_license::create($data_approve);
             Mail::to($person->email)->send(new notificationEmail($person, $bodyEmail));
             $this->dispatch('swal', [

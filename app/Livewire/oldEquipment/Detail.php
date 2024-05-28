@@ -23,7 +23,7 @@ class Detail extends Component
         $documentRequirements, $ownerAsset, $locationAsset, $id_section, $status, $attachFromHSE,
         $licenseNo, $licenseFrom, $issuedDateDocument, $lastLicenseDate, $reminderCheckingDate, $reminderTestingDate,
         $frequencyCheck, $estimatedCost, $reLicense, $frequencyTesting, $reLicenseTesting, $reminderSchedule, $statusDetail,
-        $reminder_frequency;
+        $reminder_frequency, $new_doc_no;
 
     #[\Livewire\Attributes\On('detail')]
     public function detail($id)
@@ -52,6 +52,7 @@ class Detail extends Component
                 $this->documentRequirements = $eq->document_requirements;
                 $this->idRegulation = $reg->regulation_no . " - " . $reg->regulation_desc;
                 $this->status = $eq->status;
+                $this->new_doc_no = $eq->new_doc_no;
                 $this->attachFromHSE = $eq->attachFromHSE;
                 $this->licenseNo = $detail->license_no;
                 $this->licenseFrom = $detail->license_from;

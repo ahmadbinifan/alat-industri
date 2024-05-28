@@ -92,6 +92,12 @@
                                         <input type="text" class="form-control" wire:model="estimatedCost" readonly>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Refrence Previous Document</label>
+                                        <input type="text" class="form-control" wire:model="new_doc_no" readonly>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">

@@ -56,9 +56,11 @@ class Create extends Component
                 'document_requirements' => $path,
                 'id_section' => $id_section,
                 'status' => 'draft',
+                'old_doc' => '0',
             ]);
             detail_equipment::create([
-                'doc_no' => $this->documentNo
+                'doc_no' => $this->documentNo,
+                'status' => 'open'
             ]);
         } else {
             Equipment_license::create([
@@ -72,6 +74,7 @@ class Create extends Component
                 'last_inspection' => $this->lastInspection,
                 'id_section' => $id_section,
                 'status' => 'draft',
+                'old_doc' => '0',
             ]);
             detail_equipment::create([
                 'doc_no' => $this->documentNo,
