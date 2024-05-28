@@ -18,28 +18,30 @@ class ReminderCommand extends Command
     public function handle()
     {
         $bodyEmail = [
-            'subject' => 'Reminder This Month'
+            'subject' => 'Reminder of certificates industrial that have not yet been re-certified'
         ];
         $eq = Equipment_license::where('status', 'need_re_license')->get();
         $approvalNames = [];
+        if ($eq->count() == 0) {
+            \Log::info("Data tidak ditemukan.");
+        } else {
+            foreach ($eq as $value) {
+                $doc_no = $value->doc_no;
+                $allApproval = approval_equipment_license::where('doc_no', $doc_no)->distinct()->get('fullname');
 
-        foreach ($eq as $value) {
-            $doc_no = $value->doc_no;
-            $allApproval = approval_equipment_license::where('doc_no', $doc_no)->distinct()->get('fullname');
-
-            foreach ($allApproval as $approval) {
-                $fullname = $approval->fullname;
-                if (!in_array($fullname, $approvalNames)) {
-                    $approvalNames[] = $fullname;
+                foreach ($allApproval as $approval) {
+                    $fullname = $approval->fullname;
+                    if (!in_array($fullname, $approvalNames)) {
+                        $approvalNames[] = $fullname;
+                    }
                 }
             }
-        }
 
-        foreach ($approvalNames as $name) {
-            $user =  User::where('fullname', $name)->distinct('fullname')->first();
-            if ($user) {
-                Mail::to($user->email)->send(new reminderMail($user, $bodyEmail));
-                // \Log::info($user->email);
+            foreach ($approvalNames as $name) {
+                $user =  User::where('fullname', $name)->distinct('fullname')->first();
+                if ($user) {
+                    Mail::to($user->email)->send(new reminderMail($user, $bodyEmail));
+                }
             }
         }
     }

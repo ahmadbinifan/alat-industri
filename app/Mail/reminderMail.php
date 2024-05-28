@@ -41,15 +41,7 @@ class reminderMail extends Mailable
      */
     public function content(): Content
     {
-        if ($this->body['subject'] == "License Equipment is Running") {
-            $view = 'livewire.mail.license-running';
-        } elseif ($this->body['subject'] == "Need Re License Equipment") {
-            $view = 'livewire.mail.re-license';
-        } elseif ($this->body['subject'] == "Reminder This Month") {
-            $view = 'livewire.mail.need-license';
-        } else {
-            $view = 'livewire.mail.index';
-        }
+        $view = 'livewire.mail.need-license';
         $data = Equipment_license::where('status', 'need_re_license')->get();
         return new Content(
             view: $view,
