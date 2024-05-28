@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\equipment;
+namespace App\Livewire\oldEquipment;
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ExportEquipmentLicense;
 use App\Models\Equipment_license;
 
-class Equipment extends Component
+class oldEquipment extends Component
 {
     #[\Livewire\Attributes\On('refresh')]
     public function refresh()
@@ -44,37 +44,25 @@ class Equipment extends Component
     public function render()
     {
         if (session('id_section') == "LEG" || session('id_section') == "HRD") {
-            $data = \App\Models\Equipment_license::where('status', 'wait_adm_legal')
-                ->where('old_doc', '0')
-                ->orWhere('status', 'wait_dep_hrd')
-                ->orWhere('status', 'in_progress_prpo')
-                ->orWhere('status', 'license_running')
-                ->orWhere('status', 'need_re_license')
+            $data = \App\Models\Equipment_license::where('old_doc', '1')
                 ->search($this->search)
                 ->orderBy($this->sortColumn, $this->sortDirection)
                 ->paginate($this->perPage);
         } elseif (session('id_section') == "HSE") {
-            $data = \App\Models\Equipment_license::where('status', 'wait_adm_hse')
-                ->orWhere('status', 'wait_dep_hse')
-                ->where('old_doc', '0')
-                ->search($this->search)
+            $data = \App\Models\Equipment_license::where('old_doc', '1')->search($this->search)
                 ->orderBy($this->sortColumn, $this->sortDirection)
                 ->paginate($this->perPage);
         } elseif (session('id_position') == "BUSINESS_CONTROL") {
-            $data = \App\Models\Equipment_license::where('status', 'wait_budgetcontrol')
-                ->where('old_doc', '0')
-                ->search($this->search)
+            $data = \App\Models\Equipment_license::where('old_doc', '1')->search($this->search)
                 ->orderBy($this->sortColumn, $this->sortDirection)
                 ->paginate($this->perPage);
         } else {
-            $data = \App\Models\Equipment_license::where('id_section', session('id_section'))
-                ->where('old_doc', '0')
-                ->search($this->search)
+            $data = \App\Models\Equipment_license::where('old_doc', '1')->where('id_section', session('id_section'))->search($this->search)
                 ->orderBy($this->sortColumn, $this->sortDirection)
                 ->paginate($this->perPage);
         }
 
-        return view('livewire.equipment.index', [
+        return view('livewire.oldEquipment.index', [
             'data' => $data
         ]);
     }

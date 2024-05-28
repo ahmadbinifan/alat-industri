@@ -7,6 +7,7 @@ Route::middleware('auth')->group(
     function () {
         Route::get('/', \App\Livewire\Home::class)->name('home');
         Route::get('/equipment', \App\Livewire\equipment\Equipment::class)->name('equipment');
+        Route::get('/oldEquipment', \App\Livewire\oldEquipment\oldEquipment::class)->name('oldEquipment');
         Route::get('/certificateRegulation', \App\Livewire\CertificateRegulation\Index::class)->name('certificateRegulation');
         Route::get('/equipment/exportpdf/{id}', [\App\Livewire\equipment\Equipment::class, 'exportpdf'])->name('equipment.exportpdf');
     }

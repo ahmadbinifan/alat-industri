@@ -28,17 +28,17 @@
             <li class="nav-item {{ request()->routeIs('oldEquipment') ? 'active' : '' }}">
                 <a href="{{ url('/oldEquipment') }}" class="nav-link">
                     <i class="link-icon" data-feather="box"></i>
-                    <span class="link-title">Old Equipment</span>
+                    <span class="link-title">Old License Equipment</span>
                 </a>
             </li>
-            <li class="nav-item {{ request()->routeIs('certificateRegulation') ? 'active' : '' }}">
-                <a href="{{ url('/certificateRegulation') }}" class="nav-link">
-                    <i class="link-icon" data-feather="box"></i>
-                    <span class="link-title">Certificate Regulations</span>
-                </a>
-            </li>
-
-
+            @if (session('id_section') == 'HSE' || session('id_section') == 'HRD')
+                <li class="nav-item {{ request()->routeIs('certificateRegulation') ? 'active' : '' }}">
+                    <a href="{{ url('/certificateRegulation') }}" class="nav-link">
+                        <i class="link-icon" data-feather="box"></i>
+                        <span class="link-title">Certificate Regulations</span>
+                    </a>
+                </li>
+            @endif
         </ul>
     </div>
 </nav>
