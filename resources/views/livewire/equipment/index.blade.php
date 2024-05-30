@@ -14,15 +14,16 @@
                     <div class="d-flex justify-content-between mb-2">
                         <h6 class="card-title">List</h6>
                         @if (session('id_position') == 'ADMIN')
-                            <button type="button" class="btn btn-primary btn-icon-text" data-toggle="modal"
-                                data-backdrop="static" data-target="#modalCreate">
+                            <button type="button" class="btn btn-primary btn-icon-text" style="width: 170px"
+                                data-toggle="modal" data-backdrop="static" data-target="#modalCreate">
                                 <i class="btn-icon-prepend mdi mdi-plus-circle-multiple-outline"></i>
                                 Create License
                             </button>
                         @endif
                     </div>
                     <div class="float-right">
-                        <button type="button" class="btn btn-success btn-icon-text" wire:click='exportExcel'>
+                        <button type="button" class="btn btn-success btn-icon-text" style="width: 170px"
+                            wire:click='exportExcel'>
                             <i class="btn-icon-prepend mdi mdi-file-excel"></i>
                             Export to Excel
                         </button>
