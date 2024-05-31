@@ -58,7 +58,7 @@ class Approval extends Component
                         'status' => 'wait_adm_legal'
                     ]);
                     $findPerson = $this->findPerson('ADMIN', 'LEG');
-                    Mail::to($findPerson->email)->send(new notificationEmail($findPerson, $bodyEmail2));
+                    Mail::to($findPerson->email)->send(new notificationEmail($findPerson, $bodyEmail));
                     break;
                 case 'wait_adm_legal':
                     $this->storeApprove($eq);
