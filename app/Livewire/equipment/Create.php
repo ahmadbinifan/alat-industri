@@ -123,6 +123,7 @@ class Create extends Component
                 'last_inspection' => $this->lastInspection,
                 'document_requirements' => $path,
                 'id_section' => $id_section,
+                'old_doc' => '0',
             ]);
         } else {
             Equipment_license::create([
@@ -135,6 +136,7 @@ class Create extends Component
                 'idRegulasi' => $this->idRegulation,
                 'last_inspection' => $this->lastInspection,
                 'id_section' => $id_section,
+                'old_doc' => '0',
             ]);
         }
         $this->storeApprove();
