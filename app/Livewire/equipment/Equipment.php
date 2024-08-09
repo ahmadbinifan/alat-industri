@@ -44,7 +44,7 @@ class Equipment extends Component
     public function render()
     {
         if (session('id_section') == "LEG" || session('id_section') == "HRD") {
-            $data = \App\Models\Equipment_license::where('status', 'wait_adm_legal')
+            $data = \App\Models\Equipment_license::with('equipment')->where('status', 'wait_adm_legal')
                 ->where('old_doc', '0')
                 ->orWhere('status', 'wait_dep_hrd')
                 ->orWhere('status', 'in_progress_prpo')
@@ -54,26 +54,25 @@ class Equipment extends Component
                 ->orderBy($this->sortColumn, $this->sortDirection)
                 ->paginate($this->perPage);
         } elseif (session('id_section') == "HSE") {
-            $data = \App\Models\Equipment_license::where('status', 'wait_adm_hse')
+            $data = \App\Models\Equipment_license::with('equipment')->where('status', 'wait_adm_hse')
                 ->orWhere('status', 'wait_dep_hse')
                 ->where('old_doc', '0')
                 ->search($this->search)
                 ->orderBy($this->sortColumn, $this->sortDirection)
                 ->paginate($this->perPage);
         } elseif (session('id_position') == "BUSINESS_CONTROL") {
-            $data = \App\Models\Equipment_license::where('status', 'wait_budgetcontrol')
+            $data = \App\Models\Equipment_license::with('equipment')->where('status', 'wait_budgetcontrol')
                 ->where('old_doc', '0')
                 ->search($this->search)
                 ->orderBy($this->sortColumn, $this->sortDirection)
                 ->paginate($this->perPage);
         } else {
-            $data = \App\Models\Equipment_license::where('id_section', session('id_section'))
+            $data = \App\Models\Equipment_license::with('equipment')->where('id_section', session('id_section'))
                 ->where('old_doc', '0')
                 ->search($this->search)
                 ->orderBy($this->sortColumn, $this->sortDirection)
                 ->paginate($this->perPage);
         }
-
         return view('livewire.equipment.index', [
             'data' => $data
         ]);

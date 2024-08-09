@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Regulasi_equipment;
+use App\Models\equipment;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Equipment_license extends Model
 {
@@ -20,10 +22,10 @@ class Equipment_license extends Model
     {
         return $this->hasOne(Regulasi_equipment::class);
     }
-    // public function idRegulasi()
-    // {
-    //     return $this->belongsTo(Regulasi_equipment::class, 'id');
-    // }
+    public function equipment(): BelongsTo
+    {
+        return $this->belongsTo(Equipment::class, 'tag_number', 'tag_number'); // pastikan foreign key sesuai
+    }
     public function scopeSearch($query, $value)
     {
         $query->where('doc_no', 'like', "%{$value}%")

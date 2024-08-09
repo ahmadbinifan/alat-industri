@@ -61,6 +61,10 @@
                                     <th wire:click="doSort('tag_number')" class="flex items-center">
                                         <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection" columnName="tag_number" />
                                     </th>
+                                    <th wire:click="doSort('description')" class="flex items-center">
+                                        <x-datatable-item :sortColumn="$sortColumn" :sortDirection="$sortDirection"
+                                            columnName="description" />
+                                    </th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -72,6 +76,7 @@
                                         <td>{{ date('d-m-Y', strtotime($value->filing_date)) }}</td>
                                         <td>{{ $value->company }}</td>
                                         <td>{{ $value->tag_number }}</td>
+                                        <td>{{ $value->equipment->description }}</td>
                                         <td>
                                             @switch($value->status)
                                                 @case('wait_dep')
