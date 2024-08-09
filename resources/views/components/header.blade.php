@@ -7,7 +7,7 @@
             <div class="input-group">
                 <div class="input-group-prepend">
                 </div>
-                <h4> <span class="text center badge badge-danger">Sandbox Mode</span></h4>
+                <!-- <h4> <span class="text center badge badge-danger">Sandbox Mode</span></h4> -->
             </div>
         </form>
         <ul class="navbar-nav">
