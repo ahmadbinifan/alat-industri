@@ -87,7 +87,7 @@ class Approval extends Component
                             Mail::to($user->email)->send(new notificationEmail($user, $bodyEmail2));
                         }
                     }
-                    if (!$detail->status) {
+                    if ($detail->status == "open") {
                         Equipment_license::where('id', $id)->update([
                             'status' => 'wait_adm_hse',
                         ]);
